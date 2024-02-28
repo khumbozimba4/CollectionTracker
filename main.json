@@ -1,0 +1,204 @@
+{
+  "labels": [
+    "Zindaba Mkweu",
+    "Vitumbiko Changazi",
+    "Kenneth Mwango",
+    "Paul Sefasi",
+    "Davies Mweta",
+    "Tinyade Matiya",
+    "Desire Chikagwa",
+    "Justice Kachitsa",
+    "Gloria Mwausegha",
+    "Richard Marichi",
+    "Spy Mhango",
+    "Chifundo Kalumba",
+    "Agness Sikwese",
+    "Mary Kaira",
+    "Carol Msewa",
+    "Nyasha Chidoola",
+    "Ian Chapotela",
+    "Malizani Suwedi",
+    "Evance Wellemu",
+    "Victor Chisanga",
+    "Ethel Ntawanga",
+    "Martha Kachingwe"
+  ],
+  "datasets": [
+    {
+      "label": "Zindaba Mkweu",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Vitumbiko Changazi",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Kenneth Mwango",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Paul Sefasi",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        1000000,
+        1000000
+      ]
+    },
+    {
+      "label": "Davies Mweta",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Tinyade Matiya",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Desire Chikagwa",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Justice Kachitsa",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Gloria Mwausegha",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Richard Marichi",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Spy Mhango",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Chifundo Kalumba",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Agness Sikwese",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Mary Kaira",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Carol Msewa",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Nyasha Chidoola",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Ian Chapotela",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Malizani Suwedi",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Evance Wellemu",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Victor Chisanga",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Ethel Ntawanga",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    },
+    {
+      "label": "Martha Kachingwe",
+      "backgroundColor": "rgba(255, 99, 132, 0.5)",
+      "data": [
+        0,
+        0
+      ]
+    }
+  ]
+}
