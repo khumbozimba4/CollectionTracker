@@ -56,7 +56,7 @@
                             </div>
                          @enderror
                       </div>
-                      {{-- <div class="form-group col-md-6 col-lg-6">
+                      <div class="form-group col-md-6 col-lg-6">
                         <label for="exampleInputName1">Credit Adjustment</label>
                         <input type="number" min="0" class="form-control" id="exampleInputName1" placeholder="Credit Adjustment" name="credit_adjustment" style="@error('credit_adjustment')border:1px red solid;@enderror" value="{{ old('email') }}">
                         @error('credit_adjustment')
@@ -73,14 +73,14 @@
                                 {{ $message }}
                             </div>
                          @enderror
-                      </div> --}}
+                      </div>
 
                       <div class="form-group col-md-6 col-lg-6">
                         <label for="exampleInputName1">Payment Status</label>
                         <select class="form-control" name="status" style="@error('status')border:1px red solid;@enderror">
                           <option value="" selected>Choose Payment Status</option>
                               <option selected value="NOTPAID">NOT PAID</option>
-                              <option value="PARTIALYPAID">PARTIAL YPAID</option>
+                              <option value="PARTIALYPAID">PARTIALY PAID</option>
                  
                        </select>           
                        @error('status')
@@ -121,8 +121,8 @@
                       </div>
 
                       <div class="form-group col-md-6 col-lg-6">
-                        <label for="exampleInputName1">Amount Collected</label>
-                        <input type="number" min="0" class="form-control" id="exampleInputName1" placeholder="Debit Adjustment" name="amount_paid" style="@error('amount_paid')border:1px red solid;@enderror" value="{{ old('email') }}">
+                        <label for="exampleInputName1">Amount Paid</label>
+                        <input type="number" min="0" class="form-control" id="exampleInputName1" placeholder="Amount Paid" name="amount_paid" style="@error('amount_paid')border:1px red solid;@enderror" value="{{ old('email') }}">
                         @error('amount_paid')
                             <div style="color: red;">
                                 {{ $message }}

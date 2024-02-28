@@ -24,7 +24,14 @@
                                     </div>
                                 </div>
                                 @php
+                                //dd($data["target"]);
+                                if($data["target"] != 0){
+
                                     $percent = ($data["total_collected"]/$data["target"])*100;
+                                }else{
+                                    $percent = 0;
+
+                                }
                                     //dd($percent);
                                 @endphp
                                 <div class="col-xl-3 col-xxl-3 col-sm-6">
