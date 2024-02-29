@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function () {
 Route::group(['middleware' => ['role:admin']], function(){
 
     Route::get('/reports', [ReportController::class, 'index'])->name('reports');
-    Route::get('/reports/crb', [ReportController::class, 'crbindex'])->name('reports.crb');
+    Route::post('/reports/search', [ReportController::class, 'Search'])->name('reports.search');
     Route::get('/reports/crb/{id}', [ReportController::class, 'crbviewgroup'])->name('reports.crb.group');
 
 

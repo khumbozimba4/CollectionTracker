@@ -41,11 +41,20 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => trans('Wrong credentials'),
+            ]);
+        }
+
+        $user = Auth::user();
+
+        if ($user->status === 'Blocked') {
+            Auth::logout(); // Log the user out
+            throw ValidationException::withMessages([
+                'email' => trans('Your account has been blocked'),
             ]);
         }
 

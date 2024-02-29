@@ -82,7 +82,8 @@ class Notification
         }
         $stackedDataJson = json_encode($stackedData);
 
-        return $stackedDataJson;    }
+        return $stackedDataJson;    
+    }
     // public static function composeEmail($name,$email,$password) {
     //     require base_path("vendor/autoload.php");
     //     $mail = new PHPMailer(true);     // Passing `true` enables exceptions

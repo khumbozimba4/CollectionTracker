@@ -26,7 +26,7 @@
                   <div class="row">
                         <div class="col-md-2 col-lg-2 text-center">
                             <div class="nav-profile-img">
-                                <img src="../../../../../../../Media/Profile Images/{{ $user->picture }}" alt="image" width="100%">
+                                <img src="../../../../../../../Profile Images/user-icon.png" alt="image" width="100%">
                             </div>
 
                             <div class="nav-profile-text">
@@ -58,25 +58,14 @@
                                             <label>Phone Number:</label>
                                             <p><b>{{$user->phone_number}}</b></p>
                                         </div>
-
-                                        <div class="col-md-4 col-lg-4">
-                                            <label>Gender:</label>
-                                            <p><b>{{$user->gender }}</b></p>
-                                        </div>
-
-                                        <div class="col-md-4 col-lg-4">
-                                            <label>Comment:</label>
-                                            <p><b>{{$user->comment}}</b></p>
-                                        </div>
-
-
-
-
-
                                         <div class="col-md-4 col-lg-4">
                                             <label>Created:</label>
                                             <b>{{$user->created_at}}</b> <br>
+                                        </div>
 
+                                       
+                                        <div class="col-md-4 col-lg-4">
+                                           
                                             <label>Updated:</label>
                                             <b>{{$user->updated_at->diffForHumans()}}</b>
                                         </div>

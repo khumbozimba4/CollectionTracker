@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules;
 
 
@@ -33,17 +35,37 @@ class UserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'phone_number' => $request->phone_number,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'picture'=>"picture"
-        ]);
+        DB::beginTransaction();
 
-        $user->attachRole($request->role);
+        try {
+            //code...
 
-        return redirect()->back()->with('feedback', 'User added successfully!');
+            $user = User::create([
+                'name' => $request->name,
+                'phone_number' => $request->phone_number,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'picture'=>"picture"
+            ]);
+    
+            if($user)
+                $user->addRole($request->role);
+
+                DB::commit();
+            return redirect()->back()->with('feedback', 'User added successfully!');
+            
+        } catch (\Exception $e) {
+            
+            Log::info("failed to create a new user: ".$e->getMessage());
+            DB::rollback();
+            return back()->with("error","Failed to create a new user");
+
+            
+        }
+            
+            
+          
+
 
     }
 

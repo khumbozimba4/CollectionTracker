@@ -27,7 +27,7 @@
                       <h4>Debit Adjustment: {{$invoice->debit_adjustment}}</h4> <br>
                     @csrf
                     <div class="row">
-                      @if (!auth()->user()->hasRole("salesPerson"))
+                      @if (auth()->user()->hasRole("admin"))
 
                       <div class="form-group col-md-6 col-lg-6">
                         <label for="exampleInputName1">Invoice Number</label>

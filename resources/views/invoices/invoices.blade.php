@@ -11,7 +11,6 @@
         </ol>
     </nav>
 </div>
-{{-- Invoices TABLE --}}
 
 
   <div class="col-lg-12 grid-margin stretch-card">
@@ -82,6 +81,5 @@
                   </div>
                 </div>
               </div>
-{{-- END OF Invoices TABLE --}}
 </x-app-layout>
 

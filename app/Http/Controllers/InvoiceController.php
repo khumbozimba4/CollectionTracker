@@ -54,13 +54,28 @@ class InvoiceController extends Controller
             'amount' => 'required|numeric',
             'status' => 'required',
             'amount_paid' => 'required|numeric',
+            'credit_adjustment' => 'required|numeric',
+            'debit_adjustment' => 'required|numeric',
             'user_id' => 'required|exists:users,id',
             'customer_id' => 'required|exists:customers,id',
         ]);
+         $data = [];
+         $data["amount"] = $request->amount;
+         $data["status"] = $request->status;
+         $data["amount_paid"] = $request->amount_paid;
+         $data["credit_adjustment"] = $request->credit_adjustment;
+         $data["debit_adjustment"] = $request->debit_adjustment;
+         $data["user_id"] = $request->user_id;
+         $data["customer_id"] = $request->customer_id;
+         $data["invoice_number"] = $request->invoice_number;
 
+         $target = ($data["amount"] + $data["debit_adjustment"])-$data["credit_adjustment"];
+
+
+         $data["balance"] = $target-$data["amount_paid"];
         try {
             //code...
-            $invoice = Invoice::create($request->ALL());
+            $invoice = Invoice::create($data);
             return redirect()->back()->with('feedback', 'invoice added successfully!');
 
         } catch (\Throwable $th) {
@@ -111,8 +126,7 @@ class InvoiceController extends Controller
             $totalDebitAdjustment = $invoice->debit_adjustment;
             $target = ($totalAmount + $totalDebitAdjustment)-$totalCreditAdjustment;
             $total_collected = $request->amount_paid;
-            $status  =$request->status;
-
+            $invoice->status  =$request->status;
             $balance = $target-$total_collected;
             $invoice->amount_paid = $total_collected;
             $invoice->balance = $balance;

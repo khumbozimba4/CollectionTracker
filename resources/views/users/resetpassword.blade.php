@@ -24,7 +24,7 @@
                         <div class="row">
                           <div class="form-group col-md-6 col-lg-6">
                             <label for="exampleInputPassword4">New Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword4" placeholder="New Password" name="password" style="@error('password')border:1px red solid;@enderror" >
+                            <input type="text" value="1mtl123!" class="form-control" id="exampleInputPassword4" placeholder="New Password" name="password" style="@error('password')border:1px red solid;@enderror" >
                              @error('password')
                                 <div style="color: red;">
                                     {{ $message }}
@@ -34,7 +34,7 @@
 
                           <div class="form-group col-md-6 col-lg-6">
                             <label for="exampleInputPassword4">Confirm Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Comfirm Password" name="password_confirmation" style="@error('password_confirmation')border:1px red solid;@enderror" >
+                            <input type="text" value="1mtl123!" class="form-control" id="exampleInputPassword4" placeholder="Comfirm Password" name="password_confirmation" style="@error('password_confirmation')border:1px red solid;@enderror" >
 
                           </div>
 

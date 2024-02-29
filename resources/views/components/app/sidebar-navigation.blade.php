@@ -11,7 +11,7 @@
 
             @if(auth()->user()->hasRole('admin'))
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('dashboard')}}">
+                    <a class="nav-link" href="{{route('reports')}}">
                         <span class="icon-bg"><i class="fa fa-file menu-icon"></i></span>
                         <span class="menu-title">Reports</span>
                     </a>
