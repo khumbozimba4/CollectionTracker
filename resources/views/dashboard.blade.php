@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-         
+
             <div class="content-body">
                 <div class="container-fluid">
                     <div class="row">
@@ -19,7 +19,7 @@
                                             <div class="progress mb-2">
                                                 <div class="progress-bar progress-animated bg-primary" style="width: {{$data["target"]}}%"></div>
                                             </div>
-                                            <small>{{$data["target"]}}% Increase</small>
+                                            <small>{{$data["target"]}} Increase</small>
                                         </div>
                                     </div>
                                 </div>
@@ -46,10 +46,11 @@
                                                 bg-warning
                                                 @endif" style="width: {{$data["total_collected"]}}%"></div>
                                             </div>
-                                            <small>{{$data["total_collected"]}}% Increase</small>
+                                            <small>{{$data["total_collected"]}} Increase</small>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-xl-3 col-xxl-3 col-sm-6">
                                     <div class="widget-stat card">
                                         <div class="card-body">
@@ -58,7 +59,7 @@
                                             <div class="progress mb-2">
                                                 <div class="progress-bar progress-animated bg-red" style="width: {{$data["total_remaining"]}}%"></div>
                                             </div>
-                                            <small>{{$data["total_remaining"]}}% Increase</small>
+                                            <small>{{$data["total_remaining"]}} Increase</small>
                                         </div>
                                     </div>
                                 </div>
@@ -71,14 +72,14 @@
                                             <div class="progress mb-2">
                                                 <div class="progress-bar progress-animated bg-red" style="width: {{$data["customers"]}}%"></div>
                                             </div>
-                                            <small>{{$data["customers"]}}% Increase</small>
+                                            <small>{{$data["customers"]}}</small>
                                         </div>
                                     </div>
                                 </div>
-                                
 
-                                @if (auth()->user()->hasRole("admin"))
-                                    
+
+                                @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('manager'))
+
                                   <div class="col-md-12 col-lg-12 col-sm-12">
                                       <div class="mt-4">
                                           <canvas id="stacked"></canvas>
@@ -91,27 +92,16 @@
                                         <canvas id="myChart"></canvas>
                                     </div>
                                 </div>
-
-                                
-
-                               
                     </div>
-                    
-                 
-
                 </div>
-               
             </div>
-           
-
-           
         </div>
     </div>
-    
+
 @section('scripts')
 <script>
     const ctx = document.getElementById('myChart');
-  
+
     const data = {
     labels: [
       'Target',
@@ -129,7 +119,7 @@
       hoverOffset: 4
     }]
   };
-  
+
     new Chart(ctx, {
       type: 'doughnut',
       data: data,
@@ -219,5 +209,5 @@ new Chart(stacked, config);
 
   </script>
 @endsection
-   
+
 </x-app-layout>

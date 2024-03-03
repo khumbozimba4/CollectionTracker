@@ -45,16 +45,16 @@
                               <td> {{ ($invoice->amount+$invoice->debit_adjustment)-$invoice->credit_adjustment }} </td>
                               <td> {{ $invoice->amount_paid }} </td>
                               <td> {{ (($invoice->amount+$invoice->debit_adjustment)-$invoice->credit_adjustment)-$invoice->amount_paid }} </td>
-                              <td> 
+                              <td>
                                 @if ($invoice->status=="PARTIALYPAID")
                                   <span class="badge badge-warning"><i class="fa fa-check-circle"></i> {{ $invoice->status }}</span>
-                                @endif 
+                                @endif
                                 @if ($invoice->status=="PAID")
                                 <span class="badge badge-success"><i class="fa fa-check-circle"></i> {{ $invoice->status }}</span>
-                                @endif 
+                                @endif
                                 @if ($invoice->status=="NOTPAID")
                                 <span class="badge badge-danger"><i class="fa fa-check-circle"></i> {{ $invoice->status }}</span>
-                              @endif  
+                              @endif
                               </td>
                               <td> {{ $invoice->user->name }} </td>
                               <td> {{ $invoice->updated_at->diffForHumans() }} </td>
@@ -75,7 +75,7 @@
                     </table>
 
                         <div class="d-flex justify-content-center">
-                        {!! $invoices->links() !!}
+                        {!! $invoices->links('vendor.pagination.bootstrap-5') !!}
                         </div>
 
                   </div>

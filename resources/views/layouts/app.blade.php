@@ -13,6 +13,8 @@
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href="../../../../../../../assets/vendors/font-awesome/css/font-awesome.min.css" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="../../../../../../../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
@@ -23,7 +25,7 @@
     <link rel="shortcut icon" href="../../../../../../../assets/images/favicon.jpg" />
   </head>
   <body>
-  
+
       <!-- partial:partials/_navbar.html -->
       <x-app.navigation />
       <!-- partial -->
@@ -102,3 +104,39 @@
   @yield('scripts')
   </body>
 </html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    if (document.querySelectorAll('.dltBtn') !== null) {
+
+        var deleteButtons = document.querySelectorAll('.dltBtn');
+
+
+        deleteButtons.forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            var form = this.closest('form');
+            var dataID = this.getAttribute('data-id');
+            e.preventDefault();
+
+            // Show a confirmation dialog using SweetAlert2
+           new swal({
+                title: "Are you sure?",
+                text: this.getAttribute('data-text'),
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                   form.submit();
+                } else {
+                   new swal("Your  file is safe!");
+                }
+                });
+
+        });
+    });
+    }
+
+});
+</script>

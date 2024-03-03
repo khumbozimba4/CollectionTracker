@@ -10,20 +10,33 @@
     </nav>
 </div>
 {{-- INFO SECTION --}}
-
+@if (session('feedback'))
+<div class="alert alert-success">
+    {{ session('feedback') }}
+</div>
+@endif
+@if (session('warning_feedback'))
+<div class="alert alert-danger">
+    {{ session('warning_feedback') }}
+</div>
+@endif
 
   <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
 
-                  
+                    <form method="POST" class="float-end" action="{{route('deleteCustomer',[$customer->id])}}">
+                        @csrf
+                        @method('delete')
+                            <button class="btn btn-danger dltBtn" data-id={{$customer->id}}  data-text="Are you sure you want to delete this customer? This is irreversible."><i class="fa fa-remove"></i> Delete customer</button>
+                    </form>
 
                   <div class="row">
                         <div class="col-md-2 col-lg-2 text-center">
-                           
+
                             <div class="nav-profile-text">
                                 <h4 class="card-title">{{$customer->name}}</h4>
-                           
+
                             </div>
                         </div>
 

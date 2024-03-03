@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [AuthenticatedSessionController::class,'create']);
+Route::get('/', [AuthenticatedSessionController::class, 'create']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -40,17 +40,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/invoices/edit/{id}', [InvoiceController::class, 'editinvoice'])->name('invoices.edit');
     Route::post('/invoices/edit/{id}', [InvoiceController::class, 'editinvoicestore']);
 
+    Route::get('/users', [UserController::class, 'index'])->name('users');
+    Route::get('/users/view/{id}', [UserController::class, 'viewuser'])->name('users.view');
 });
 
 //routes for admin
-Route::group(['middleware' => ['role:admin']], function(){
+Route::group(['middleware' => ['role:admin']], function () {
 
     Route::get('/reports', [ReportController::class, 'index'])->name('reports');
     Route::post('/reports/search', [ReportController::class, 'Search'])->name('reports.search');
     Route::get('/reports/crb/{id}', [ReportController::class, 'crbviewgroup'])->name('reports.crb.group');
 
 
-    Route::get('/users', [UserController::class, 'index'])->name('users');
 
     Route::get('/users/resetpassword/{id}', [UserController::class, 'resetpassword'])->name('users.resetpassword');
     Route::post('/users/resetpassword/{id}', [UserController::class, 'resetpasswordstore']);
@@ -60,7 +61,8 @@ Route::group(['middleware' => ['role:admin']], function(){
     Route::post('/users/new', [UserController::class, 'newuserstore']);
 
 
-    Route::get('/users/view/{id}', [UserController::class, 'viewuser'])->name('users.view');
+    Route::delete('/users/delete/{id}', [UserController::class, 'DeleteUser'])->name('deleteUser');
+    Route::delete('/customers/delete/{id}', [UserController::class, 'DeleteCustomer'])->name('deleteCustomer');
 
     Route::get('/users/edit/{id}', [UserController::class, 'edituser'])->name('users.edit');
     Route::post('/users/edit/{id}', [UserController::class, 'edituserstore']);
@@ -75,7 +77,7 @@ Route::group(['middleware' => ['role:admin']], function(){
 
     // routes for customer management
 
-    
+
 
     Route::get('/customers/new', [CustomerController::class, 'newcustomer'])->name('customers.new');
     Route::post('/customers/new', [CustomerController::class, 'newcustomerstore']);
@@ -85,17 +87,15 @@ Route::group(['middleware' => ['role:admin']], function(){
     Route::get('/customers/edit/{id}', [CustomerController::class, 'editcustomer'])->name('customers.edit');
     Route::post('/customers/edit/{id}', [CustomerController::class, 'editcustomerstore']);
 
-//invoices routes
+    //invoices routes
 
 
-Route::get('/invoices/new', [InvoiceController::class, 'newinvoice'])->name('invoices.new');
-Route::post('/invoices/new', [InvoiceController::class, 'newinvoicestore']);
+    Route::get('/invoices/new', [InvoiceController::class, 'newinvoice'])->name('invoices.new');
+    Route::post('/invoices/new', [InvoiceController::class, 'newinvoicestore']);
 
 
 
 
-Route::get('/get-customers/{userId}',  [InvoiceController::class, 'getCustomersByUserId']);
-
-
+    Route::get('/get-customers/{userId}',  [InvoiceController::class, 'getCustomersByUserId']);
 });
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
