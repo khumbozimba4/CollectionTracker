@@ -18,10 +18,10 @@
     @endif
     <div class="col-12 grid-margin stretch-card">
                 <div class="card">
-                  
+
                   <div class="card-body">
                     <form class="forms-sample" action="{{route('invoices.edit', $invoice->id)}}" method="post">
-                      
+
                       <h4>Invoice Amount: {{($invoice->amount+$invoice->debit_adjustment)-$invoice->credit_adjustment}}</h4> <br>
                       <h4>Credit Adjustment: {{$invoice->credit_adjustment}}</h4> <br>
                       <h4>Debit Adjustment: {{$invoice->debit_adjustment}}</h4> <br>
@@ -48,8 +48,8 @@
                             </div>
                          @enderror
                       </div>
-                       
-                      
+
+
 
                       <div class="form-group col-md-6 col-lg-6">
                         <label for="exampleInputName1">Credit Adjustment</label>
@@ -70,16 +70,16 @@
                          @enderror
                       </div>
 
-                     
 
-                     
+
+
                         <div class="form-group col-md-6 col-lg-6">
                           <label for="exampleInputName1">Sales Person</label>
                           <select class="form-control" name="user_id" id="sales-person-select" style="@error('user_id')border:1px red solid;@enderror">
                                   @foreach ($sales as $item)
                                   <option value="{{$item->id}}" {{$item->id == $invoice->customer->id ? 'selected' : ''}}>{{$item->name}}</option>
                                   @endforeach
-                      
+
                           </select>
                           @error('user_id')
                               <div style="color: red;">
@@ -87,11 +87,11 @@
                               </div>
                           @enderror
                         </div>
-                    
+
                         <div class="form-group col-md-6 col-lg-6">
                           <label for="exampleInputName1">Choose customer</label>
                           <select class="form-control" disabled id="customer-list" name="customer_id" required style="@error('customer_id')border:1px red solid;@enderror">
-                                <option value="{{$invoice->customer->id}}">{{$invoice->customer->name}}</option>
+                                <option selected value="{{$invoice->customer->id}}">{{$invoice->customer->name}}</option>
                           </select>
                           @error('customer_id')
                               <div style="color: red;">
@@ -109,14 +109,14 @@
                             </div>
                          @enderror
                       </div>
-                      
+
                       <div class="form-group col-md-6 col-lg-6">
                         <label for="exampleInputName1">Payment Status</label>
                         <select class="form-control" name="status" style="@error('status')border:1px red solid;@enderror">
                              <option value="{{$invoice->status}}" selected>{{$invoice->status}}</option>
                               <option  value="NOTPAID">NOT PAID</option>
                               <option value="PARTIALYPAID">PARTIALY PAID</option>
-                       </select>           
+                       </select>
                        @error('status')
                             <div style="color: red;">
                                 {{ $message }}

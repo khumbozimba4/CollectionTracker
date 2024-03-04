@@ -15,11 +15,11 @@
                               <div class="widget-stat card">
                                         <div class="card-body">
                                             <h4 class="card-title">Total Target</h4>
-                                            <h3>{{$data["target"]}}</h3>
+                                            <h3>MWK {{$data["target"]}}</h3>
                                             <div class="progress mb-2">
                                                 <div class="progress-bar progress-animated bg-primary" style="width: {{$data["target"]}}%"></div>
                                             </div>
-                                            <small>{{$data["target"]}} Increase</small>
+                                            <small>MWK {{$data["target"]}} </small>
                                         </div>
                                     </div>
                                 </div>
@@ -38,7 +38,7 @@
                                     <div class="widget-stat card">
                                         <div class="card-body">
                                             <h4 class="card-title">Total Collected</h4>
-                                            <h3>{{$data["total_collected"]}}</h3>
+                                            <h3>MWK {{$data["total_collected"]}}</h3>
                                             <div class="progress mb-2">
                                                 <div class="progress-bar progress-animated @if ($percent >=90)
                                                     bg-success
@@ -46,7 +46,7 @@
                                                 bg-warning
                                                 @endif" style="width: {{$data["total_collected"]}}%"></div>
                                             </div>
-                                            <small>{{$data["total_collected"]}} Increase</small>
+                                            <small>MWK {{$data["total_collected"]}} </small>
                                         </div>
                                     </div>
                                 </div>
@@ -55,11 +55,11 @@
                                     <div class="widget-stat card">
                                         <div class="card-body">
                                             <h4 class="card-title">Total Remaining</h4>
-                                            <h3>{{$data["total_remaining"]}}</h3>
+                                            <h3>MWK {{$data["total_remaining"]}}</h3>
                                             <div class="progress mb-2">
                                                 <div class="progress-bar progress-animated bg-red" style="width: {{$data["total_remaining"]}}%"></div>
                                             </div>
-                                            <small>{{$data["total_remaining"]}} Increase</small>
+                                            <small>MWK {{$data["total_remaining"]}} </small>
                                         </div>
                                     </div>
                                 </div>
@@ -172,7 +172,7 @@ const config = {
             {
                 label: 'Total Remaining',
                 data: groupedData.datasets.map(data => data.data[1]),
-                backgroundColor: 'rgba(54, 162, 235, 0.5)' // Static blue color
+                backgroundColor: 'rgba(54, 162, 235, 0.5)'
             }
         ]
     },
@@ -187,7 +187,12 @@ const config = {
             },
             y: {
                 stacked: false,
-                beginAtZero: true
+                beginAtZero: true,
+                ticks: {
+                    callback: function(value, index, values) {
+                        return 'MWK ' + value;
+                    }
+                }
             }
         },
         plugins: {

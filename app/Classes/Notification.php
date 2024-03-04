@@ -74,8 +74,17 @@ class Notification
             $collectedAmount = Invoice::where('user_id', $user->id)->sum('amount_paid');
             $balanceAmount = Invoice::where('user_id', $user->id)->sum('balance');
 
+            $totalAmount = Invoice::where('user_id', $user->id)->sum('amount');
+
+            $totalCreditAdjustment = Invoice::where('user_id', $user->id)->sum('credit_adjustment');
+            $totalDebitAdjustment = Invoice::where('user_id', $user->id)->sum('debit_adjustment');
+
+            $target = ($totalAmount + $totalDebitAdjustment) - $totalCreditAdjustment;
+
+            $balanceAmount = $target - $collectedAmount;
+            //$balanceAmount =
+
             $stackedData['datasets'][] = [
-                //'label' => $user->name,
                 'backgroundColor' => 'rgba(255, 99, 132, 0.5)', // You can adjust colors as needed
                 'data' => [$collectedAmount, $balanceAmount]
             ];

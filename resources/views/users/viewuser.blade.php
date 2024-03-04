@@ -103,12 +103,12 @@
                                 <div class="widget-stat card">
                                     <div class="card-body">
                                         <h4 class="card-title">Total Target</h4>
-                                        <h3>{{ $invoices['target'] }}</h3>
+                                        <h3>MWK {{ $invoices['target'] }}</h3>
                                         <div class="progress mb-2">
                                             <div class="progress-bar progress-animated bg-primary"
                                                 style="width: {{ $invoices['target'] }}%"></div>
                                         </div>
-                                        <small>{{ $invoices['target'] }} Increase</small>
+                                        <small>MWK {{ $invoices['target'] }}</small>
                                     </div>
                                 </div>
                             </div>
@@ -124,14 +124,14 @@
                                 <div class="widget-stat card">
                                     <div class="card-body">
                                         <h4 class="card-title">Total Collected</h4>
-                                        <h3>{{ $invoices['total_collected'] }}</h3>
+                                        <h3>MWK {{ $invoices['total_collected'] }}</h3>
                                         <div class="progress mb-2">
                                             <div class="progress-bar progress-animated @if ($percent >= 90) bg-success
                                        @else
                                        bg-warning @endif"
                                                 style="width: {{ $invoices['total_collected'] }}%"></div>
                                         </div>
-                                        <small>{{ $invoices['total_collected'] }} Increase</small>
+                                        <small>MWK {{ $invoices['total_collected'] }} </small>
                                     </div>
                                 </div>
                             </div>
@@ -140,12 +140,12 @@
                                 <div class="widget-stat card">
                                     <div class="card-body">
                                         <h4 class="card-title">Total Remaining</h4>
-                                        <h3>{{ $invoices['total_remaining'] }}</h3>
+                                        <h3>MWK {{ $invoices['total_remaining'] }}</h3>
                                         <div class="progress mb-2">
                                             <div class="progress-bar progress-animated bg-red"
                                                 style="width: {{ $invoices['total_remaining'] }}%"></div>
                                         </div>
-                                        <small>{{ $invoices['total_remaining'] }} Increase</small>
+                                        <small>MWK {{ $invoices['total_remaining'] }}</small>
                                     </div>
                                 </div>
                             </div>
@@ -178,12 +178,7 @@
                 </div>
             </div>
         </div>
-        {{-- END OF INFO SECTION --}}
 
-        {{-- USERS TABLE --}}
-
-
-        {{-- END OF USERS TABLE --}}
 
         @section('scripts')
             <script>

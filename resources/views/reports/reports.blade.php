@@ -35,18 +35,21 @@
                                 @csrf
                                 <div class="col-md-4 col-lg-4">
                                     <label>Year:</label>
-                                    <input type="number" style="@error('year')border:1px red solid;@enderror" min="2024" max="{{ \Carbon\Carbon::now()->year }}"
-                                        name="year" class="form-control" required placeholder="Enter year">
-                                        @error('year')
-                                    <div style="color: red;">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
+                                    <input type="number" style="@error('year')border:1px red solid;@enderror"
+                                        min="2024" max="{{ \Carbon\Carbon::now()->year }}" name="year"
+                                        class="form-control" required placeholder="Enter year">
+                                    @error('year')
+                                        <div style="color: red;">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
 
                                 <div class="col-md-4 mt-2 col-lg-4">
                                     <label>Select Month:</label>
-                                    <select id="months" style="height: 43px" style="@error('month')border:1px red solid;@enderror" class="form-control" name="month">
+                                    <select id="months" style="height: 43px"
+                                        style="@error('month')border:1px red solid;@enderror" class="form-control"
+                                        name="month">
                                         <option value="1">January</option>
                                         <option value="2">February</option>
                                         <option value="3">March</option>
@@ -61,10 +64,10 @@
                                         <option value="12">December</option>
                                     </select>
                                     @error('month')
-                                    <div style="color: red;">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
+                                        <div style="color: red;">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
 
                                 <div class="col-md-4 mt-2 col-lg-4">
@@ -88,11 +91,11 @@
         <div class="card">
             <div class="card-body">
                 @isset($stackedDataJson)
-                <div class="float-right">
+                    <div class="float-right">
 
-                    <button onclick="downloadPDF()"  class="btn btn-warning">Export to PDF</button>
-                    <button id="exportChart"  class="btn btn-warning">Export to PNG</button>
-                </div>
+                        <button onclick="downloadPDF()" class="btn btn-warning">Export to PDF</button>
+                        <button id="exportChart" class="btn btn-warning">Export to PNG</button>
+                    </div>
                     <br>
                     <canvas id="Report"></canvas>
                 @endisset
@@ -103,14 +106,15 @@
 
     @isset($stackedDataJson)
         @section('scripts')
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
             <script>
-
                 const plugin = {
-                id: 'custom_canvas_background_color',
+                    id: 'custom_canvas_background_color',
                     beforeDraw: (chart) => {
-                        const {ctx} = chart;
+                        const {
+                            ctx
+                        } = chart;
                         ctx.save();
                         ctx.globalCompositeOperation = 'destination-over';
                         ctx.fillStyle = 'white';
@@ -119,7 +123,8 @@
                     },
                     title: {
                         display: true,
-                        text: 'Account Manager Vs Amount Collected Vs Amount Remaining for the month of ' +currentMonthName + " " + currentYear
+                        text: 'Account Manager Vs Amount Collected Vs Amount Remaining for the month of ' + currentMonthName +
+                            " " + currentYear
                     },
                     legend: {
                         display: true,
@@ -185,53 +190,58 @@
                             },
                             y: {
                                 stacked: false,
-                                beginAtZero: true
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value, index, values) {
+                                        return 'MWK ' + value;
+                                    }
+                                }
                             }
                         },
                         plugins: [plugin]
-                        
+
                     }
                 };
                 new Chart(document.getElementById('Report'), config);
             </script>
         @endsection
 
-<script>
-
-
-
-        document.getElementById('exportChart').addEventListener('click', () => { 
-        const chartCanvas = document.getElementById('Report'); 
-        // Convert canvas to Blob 
-        chartCanvas.toBlob((blob) => { const url = URL.createObjectURL(blob); 
-            // Create a link element and trigger the download 
-        const link = document.createElement('a'); link.href = url; link.download = 'report_'+uuidv4()+'.png'; 
-        document.body.appendChild(link); 
-        link.click();
-         document.body.removeChild(link);
-         }); 
-        });
-
-        function downloadPDF(){
-            const canvas = document.getElementById('Report');
-            const canvasImage = canvas.toDataURL('image/jpeg', 1.0);
-            let pdf = new jspdf.jsPDF({
-            orientation: 'landscape'
+        <script>
+            document.getElementById('exportChart').addEventListener('click', () => {
+                const chartCanvas = document.getElementById('Report');
+                // Convert canvas to Blob
+                chartCanvas.toBlob((blob) => {
+                    const url = URL.createObjectURL(blob);
+                    // Create a link element and trigger the download
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'report_' + uuidv4() + '.png';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                });
             });
-            pdf.setFontSize(20);
-            pdf.addImage(canvasImage, 'jpeg', 15,15,280,150);
-            pdf.save('report_'+uuidv4()+'.pdf');
-    }
 
-    function uuidv4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-    .replace(/[xy]/g, function (c) {
-        const r = Math.random() * 16 | 0, 
-            v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
-}
-</script>
+            function downloadPDF() {
+                const canvas = document.getElementById('Report');
+                const canvasImage = canvas.toDataURL('image/jpeg', 1.0);
+                let pdf = new jspdf.jsPDF({
+                    orientation: 'landscape'
+                });
+                pdf.setFontSize(20);
+                pdf.addImage(canvasImage, 'jpeg', 15, 15, 280, 150);
+                pdf.save('report_' + uuidv4() + '.pdf');
+            }
+
+            function uuidv4() {
+                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+                    .replace(/[xy]/g, function(c) {
+                        const r = Math.random() * 16 | 0,
+                            v = c == 'x' ? r : (r & 0x3 | 0x8);
+                        return v.toString(16);
+                    });
+            }
+        </script>
 
 
     @endisset
