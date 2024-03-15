@@ -10,41 +10,25 @@
 
             <div class="content-body">
                 <div class="container-fluid">
-                    @if (auth()->user()->hasRole('Head'))
-                        <div class="row">
-                            @foreach ($data['managers'] as $manager)
-                                <div class="col-xl-6 col-xxl-6 col-sm-6 sm:mt2">
-                                    <div class="widget-stat card">
-                                        <div class="card-body">
-                                            <h4 class="card-title">{{ $manager->location_name }}</h4>
-                                            <h3>Managed By:
-                                                <small>{{ $manager->manager->name }}</small>
-                                            </h3>
-                                            <a class="btn btn-link float-end" href="{{route('location.manager',['id'=>$manager->id])}}">More>></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @else
+
                         <div class="row">
                             <div class="col-xl-4 col-xxl-4 col-sm-6">
                                 <div class="widget-stat card">
                                     <div class="card-body">
                                         <h4 class="card-title">Total Target</h4>
-                                        <h3>MWK {{ $data['target'] }}</h3>
+                                        <h3>MWK {{ $location_report['target'] }}</h3>
                                         <div class="progress mb-2">
                                             <div class="progress-bar progress-animated bg-primary"
-                                                style="width: {{ $data['target'] }}%"></div>
+                                                style="width: {{ $location_report['target'] }}%"></div>
                                         </div>
-                                        <small>MWK {{ $data['target'] }} </small>
+                                        <small>MWK {{ $location_report['target'] }} </small>
                                     </div>
                                 </div>
                             </div>
                             @php
-                                //dd($data["target"]);
-                                if ($data['target'] != 0) {
-                                    $percent = ($data['total_collected'] / $data['target']) * 100;
+                                //dd($location_report["target"]);
+                                if ($location_report['target'] != 0) {
+                                    $percent = ($location_report['total_collected'] / $location_report['target']) * 100;
                                 } else {
                                     $percent = 0;
                                 }
@@ -54,14 +38,14 @@
                                 <div class="widget-stat card">
                                     <div class="card-body">
                                         <h4 class="card-title">Total Collected</h4>
-                                        <h3>MWK {{ $data['total_collected'] }}</h3>
+                                        <h3>MWK {{ $location_report['total_collected'] }}</h3>
                                         <div class="progress mb-2">
                                             <div class="progress-bar progress-animated @if ($percent >= 90) bg-success
                                                 @else
                                                 bg-warning @endif"
-                                                style="width: {{ $data['total_collected'] }}%"></div>
+                                                style="width: {{ $location_report['total_collected'] }}%"></div>
                                         </div>
-                                        <small>MWK {{ $data['total_collected'] }} </small>
+                                        <small>MWK {{ $location_report['total_collected'] }} </small>
                                     </div>
                                 </div>
                             </div>
@@ -70,12 +54,12 @@
                                 <div class="widget-stat card">
                                     <div class="card-body">
                                         <h4 class="card-title">Total Remaining</h4>
-                                        <h3>MWK {{ $data['total_remaining'] }}</h3>
+                                        <h3>MWK {{ $location_report['total_remaining'] }}</h3>
                                         <div class="progress mb-2">
                                             <div class="progress-bar progress-animated bg-red"
-                                                style="width: {{ $data['total_remaining'] }}%"></div>
+                                                style="width: {{ $location_report['total_remaining'] }}%"></div>
                                         </div>
-                                        <small>MWK {{ $data['total_remaining'] }} </small>
+                                        <small>MWK {{ $location_report['total_remaining'] }} </small>
                                     </div>
                                 </div>
                             </div>
@@ -86,12 +70,12 @@
                                 <div class="widget-stat card">
                                     <div class="card-body">
                                         <h4 class="card-title">Total Customers</h4>
-                                        <h3>{{ $data['customers'] }}</h3>
+                                        <h3>{{ $location_report['customers'] }}</h3>
                                         <div class="progress mb-2">
                                             <div class="progress-bar progress-animated bg-red"
-                                                style="width: {{ $data['customers'] }}%"></div>
+                                                style="width: {{ $location_report['customers'] }}%"></div>
                                         </div>
-                                        <small>{{ $data['customers'] }}</small>
+                                        <small>{{ $location_report['customers'] }}</small>
                                     </div>
                                 </div>
                             </div>
@@ -99,39 +83,35 @@
                                 <div class="widget-stat card">
                                     <div class="card-body">
                                         <h4 class="card-title">Total SalesPersons</h4>
-                                        <h3>{{ $data['totalSalesPersons'] }}</h3>
+                                        <h3>{{ $location_report['totalSalesPersons'] }}</h3>
                                         <div class="progress mb-2">
                                             <div class="progress-bar progress-animated bg-red"
-                                                style="width: {{ $data['customers'] }}%"></div>
+                                                style="width: {{ $location_report['customers'] }}%"></div>
                                         </div>
-                                        <small>{{ $data['totalSalesPersons'] }}</small>
+                                        <small>{{ $location_report['totalSalesPersons'] }}</small>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
 
-                        @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('manager'))
                             <div class="col-md-12 col-lg-12 col-sm-12">
                                 <div class="mt-4">
                                     <canvas id="stacked"></canvas>
                                 </div>
                             </div>
-                        @endif
 
                         <div class="col-md-6 col-lg-6 col-sm-12">
                             <div class="mt-4">
                                 <canvas id="myChart"></canvas>
                             </div>
                         </div>
-                    @endif
                 </div>
             </div>
         </div>
     </div>
     </div>
 
-    @if (!auth()->user()->hasRole('Head'))
 
         @section('scripts')
             <script>
@@ -145,8 +125,8 @@
                     ],
                     datasets: [{
                         label: 'Collected vs Remaining vs Target',
-                        data: [{{ $data['target'] }}, {{ $data['total_collected'] }},
-                            {{ $data['total_remaining'] }}
+                        data: [{{ $location_report['target'] }}, {{ $location_report['total_collected'] }},
+                            {{ $location_report['total_remaining'] }}
                         ],
                         backgroundColor: [
                             'rgb(255, 205, 86)',
@@ -164,8 +144,7 @@
 
 
 
-
-                var groupedData = {!! $stackedData !!};
+                var groupedData = {!! $stackedDataJson !!};
 
                 // Iterate through the datasets to adjust the colors based on the target achievement
                 groupedData.datasets.forEach(dataset => {
@@ -250,6 +229,5 @@
                 new Chart(stacked, config);
             </script>
         @endsection
-    @endif
 
 </x-app-layout>

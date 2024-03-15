@@ -5,6 +5,8 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,17 +37,38 @@ Route::middleware('auth')->group(function () {
     Route::get('/customers/view/{id}', [CustomerController::class, 'viewcustomer'])->name('customers.view');
 
 
+
     Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices');
     Route::get('/invoices/view/{id}', [InvoiceController::class, 'viewinvoice'])->name('invoices.view');
     Route::get('/invoices/edit/{id}', [InvoiceController::class, 'editinvoice'])->name('invoices.edit');
     Route::post('/invoices/edit/{id}', [InvoiceController::class, 'editinvoicestore']);
+    Route::get('/invoices/review/{id}', [InvoiceController::class, 'reviewinvoice'])->name('invoices.review');
+    Route::post('/invoices/review/{id}', [InvoiceController::class, 'reviewinvoicestore']);
+
+    Route::post('/search-invoice', [HomeController::class, 'searchInvoice'])->name("search");
+    Route::post('/search-customer', [HomeController::class, 'searchCustomer'])->name("searchCustomer");
+    Route::post('/search-user', [HomeController::class, 'searchUser'])->name("searchUser");
+    Route::post('/search-location', [HomeController::class, 'searchLocation'])->name("searchLocation");
 
     Route::get('/users', [UserController::class, 'index'])->name('users');
     Route::get('/users/view/{id}', [UserController::class, 'viewuser'])->name('users.view');
 });
 
+Route::group(['middleware' => ['role:Head']], function () {
+    Route::get('/manager/locations/{id}', [LocationController::class, "ManagerLocation"])->name("location.manager");
+});
+
 //routes for admin
 Route::group(['middleware' => ['role:admin']], function () {
+
+    Route::get('/locations', [LocationController::class, 'index'])->name('locations');
+    Route::get('/locations/edit/{id}', [LocationController::class, 'editLocation'])->name('locations.edit');
+    Route::get('/locations/view/{id}', [LocationController::class, 'viewLocation'])->name('locations.view');
+    Route::get('/locations/create', [LocationController::class, 'createLoaction'])->name('locations.new');
+    Route::delete('/locations/delete/{id}', [LocationController::class, 'deleteLocation'])->name('deleteLocation');
+    Route::post('/locations/submit', [LocationController::class, 'createLoactionstore'])->name("locations.submit");
+    Route::post('/locations/update/{id}', [LocationController::class, 'updateLoactionstore'])->name("locations.update");
+
 
     Route::get('/reports', [ReportController::class, 'index'])->name('reports');
     Route::post('/reports/search', [ReportController::class, 'Search'])->name('reports.search');

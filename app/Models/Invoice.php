@@ -18,13 +18,17 @@ class Invoice extends Model
         'user_id',
         'customer_id',
         "credit_adjustment",
-        "debit_adjustment"
+        "debit_adjustment",
+        "is_reviewed",
+        'remarks',
+        'current_amount_collected'
     ];
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
-    public function customer(){
+    public function customer()
+    {
         return $this->belongsTo(Customer::class);
     }
-
 }

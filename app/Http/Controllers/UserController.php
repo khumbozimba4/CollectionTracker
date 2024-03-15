@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Invoice;
+use App\Models\Location;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
@@ -20,7 +21,19 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::latest()->paginate(10);
+        if (auth()->user()->hasRole('admin')) {
+
+            $users = User::latest()->paginate(10);
+        } else if (auth()->user()->hasRole('manager')) {
+            $managerId = auth()->user()->id;
+            // Assuming you want to retrieve the manager's location
+            $managerLocationId = Location::where('user_id', $managerId)->with('salesPersons')->first()->id;
+
+            $users = User::where('location_id', $managerLocationId)
+                ->whereHas('roles', function ($query) {
+                    $query->where('name', 'salesPerson');
+                })->latest()->paginate(10);
+        }
         return view('users.users', [
             'users' => $users
         ]);
@@ -29,7 +42,8 @@ class UserController extends Controller
     public function newuser()
     {
         $roles = Role::select("id", "name", "display_name")->get();
-        return view('users.newuser', compact('roles'));
+        $locations  = Location::select('id', 'location_name')->get();
+        return view('users.newuser', compact('roles', 'locations'));
     }
 
     public function newuserstore(Request $request)
@@ -48,13 +62,11 @@ class UserController extends Controller
         try {
             //code...
 
-            $user = User::create([
-                'name' => $request->name,
-                'phone_number' => $request->phone_number,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'picture' => "picture"
-            ]);
+            $user = User::create(array_merge(
+                $request->all(),
+                ['password' => Hash::make($request->password), 'picture' => 'picture']
+            ));
+
 
             if ($user)
                 $user->addRole($request->role);

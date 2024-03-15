@@ -9,9 +9,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Laratrust\Contracts\LaratrustUser;
 use Laratrust\Traits\HasRolesAndPermissions;
+
 class User extends Authenticatable implements LaratrustUser
 {
-    use HasApiTokens, HasFactory, Notifiable,HasRolesAndPermissions;
+    use HasApiTokens, HasFactory, Notifiable, HasRolesAndPermissions;
 
     /**
      * The attributes that are mass assignable.
@@ -24,7 +25,8 @@ class User extends Authenticatable implements LaratrustUser
         'password',
         'phone_number',
         'status',
-        'picture'
+        'picture',
+        'location_id'
     ];
 
     /**
@@ -47,10 +49,17 @@ class User extends Authenticatable implements LaratrustUser
         'password' => 'hashed',
     ];
 
-    public function customers(){
-        return $this->hasMany(Customer::class,'user_id');
+    public function customers()
+    {
+        return $this->hasMany(Customer::class, 'user_id');
     }
-    public function invoices(){
-        return $this->hasMany(Invoice::class,'user_id');
+    public function location()
+    {
+        return $this->hasOne(Location::class, 'user_id');
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'user_id');
     }
 }

@@ -26,8 +26,26 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body" style="width: 100%; overflow-x: auto;">
-                <h4 class="card-title">All Customers</h4>
-                </p>
+                <div class="row">
+                    <div class="col-md-4">
+
+                        <h4 class="card-title">All Customers</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <form method="POST" action="{{route('searchCustomer')}}" class="row g-3 float-end">
+
+                            @csrf
+                            <div class="col-auto">
+                                <input type="text" style="height: 40px" name="searchValue" required class="form-control" id="inputPassword2" placeholder="Search by customer name">
+
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary mb-3">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -69,10 +87,12 @@
                     </tbody>
                 </table>
 
+                @if (!empty($customers->links))
                 <div class="d-flex justify-content-center">
-                    {!!$customers->links('vendor.pagination.bootstrap-5')!!}
-
+                    {!! $customers->links('vendor.pagination.bootstrap-5') !!}
                 </div>
+               @endif
+
 
             </div>
         </div>
