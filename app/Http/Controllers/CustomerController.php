@@ -14,7 +14,7 @@ class CustomerController extends Controller
     public function index()
     {
 
-        if (auth()->user()->hasRole("admin")) {
+        if (auth()->user()->hasRole("admin") || auth()->user()->hasRole("Head")) {
             $customers = Customer::latest()->paginate(10);
         } else if (auth()->user()->hasRole("manager")) {
             $managerId = auth()->user()->id;
@@ -22,7 +22,7 @@ class CustomerController extends Controller
             $managerLocation = Location::where('user_id', $managerId)->with('salesPersons')->first();
             $salesPersonIds = $managerLocation->salesPersons->pluck('id')->toArray();
 
-            $customers = Customer::whereIn('user_id', $salesPersonIds)->get();
+            $customers = Customer::whereIn('user_id', $salesPersonIds)->paginate(10);
         } else {
             $customers = Customer::where("user_id", auth()->user()->id)->latest()->paginate(10);
         }

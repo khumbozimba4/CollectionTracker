@@ -81,8 +81,9 @@
                           <option value="" selected>Choose Payment Status</option>
                               <option selected value="NOTPAID">NOT PAID</option>
                               <option value="PARTIALYPAID">PARTIALY PAID</option>
-                 
-                       </select>           
+                              <option value="PAID">FULLY PAID</option>
+
+                       </select>
                        @error('status')
                             <div style="color: red;">
                                 {{ $message }}
@@ -90,7 +91,7 @@
                          @enderror
                       </div>
 
-                     
+
 
                       <div class="form-group col-md-6 col-lg-6">
                         <label for="exampleInputName1">Sales Person</label>
@@ -99,7 +100,7 @@
                                 @foreach ($sales as $item)
                                   <option value="{{$item->id}}">{{$item->name}}</option>
                                 @endforeach
-                     
+
                         </select>
                         @error('user_id')
                             <div style="color: red;">
@@ -107,11 +108,11 @@
                             </div>
                          @enderror
                       </div>
-                   
+
                       <div class="form-group col-md-6 col-lg-6">
                         <label for="exampleInputName1">Choose customer</label>
                         <select class="form-control" disabled id="customer-list" name="customer_id" required style="@error('customer_id')border:1px red solid;@enderror">
-                              
+
                         </select>
                         @error('customer_id')
                             <div style="color: red;">
@@ -129,8 +130,8 @@
                             </div>
                          @enderror
                       </div>
-                      
-                      
+
+
                     </div>
                       <button type="submit" class="btn btn-primary me-2">Submit</button>
                     </form>

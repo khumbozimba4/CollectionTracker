@@ -16,12 +16,12 @@
                                 <div class="widget-stat card">
                                     <div class="card-body">
                                         <h4 class="card-title">Total Target</h4>
-                                        <h3>MWK {{ $location_report['target'] }}</h3>
+                                        <h3>MWK {{ number_format($location_report['target']) }}</h3>
                                         <div class="progress mb-2">
                                             <div class="progress-bar progress-animated bg-primary"
                                                 style="width: {{ $location_report['target'] }}%"></div>
                                         </div>
-                                        <small>MWK {{ $location_report['target'] }} </small>
+                                        <small>MWK {{  number_format($location_report['target']) }} </small>
                                     </div>
                                 </div>
                             </div>
@@ -38,14 +38,14 @@
                                 <div class="widget-stat card">
                                     <div class="card-body">
                                         <h4 class="card-title">Total Collected</h4>
-                                        <h3>MWK {{ $location_report['total_collected'] }}</h3>
+                                        <h3>MWK {{ number_format($location_report['total_collected']) }}</h3>
                                         <div class="progress mb-2">
                                             <div class="progress-bar progress-animated @if ($percent >= 90) bg-success
                                                 @else
                                                 bg-warning @endif"
                                                 style="width: {{ $location_report['total_collected'] }}%"></div>
                                         </div>
-                                        <small>MWK {{ $location_report['total_collected'] }} </small>
+                                        <small>MWK {{ number_format($location_report['total_collected']) }} </small>
                                     </div>
                                 </div>
                             </div>
@@ -54,12 +54,12 @@
                                 <div class="widget-stat card">
                                     <div class="card-body">
                                         <h4 class="card-title">Total Remaining</h4>
-                                        <h3>MWK {{ $location_report['total_remaining'] }}</h3>
+                                        <h3>MWK {{ number_format($location_report['total_remaining']) }}</h3>
                                         <div class="progress mb-2">
-                                            <div class="progress-bar progress-animated bg-red"
-                                                style="width: {{ $location_report['total_remaining'] }}%"></div>
+                                            <div class="progress-bar progress-animated"
+                                                style="background-color:red;width: {{ $location_report['total_remaining'] }}% "></div>
                                         </div>
-                                        <small>MWK {{ $location_report['total_remaining'] }} </small>
+                                        <small>MWK {{ number_format($location_report['total_remaining']) }} </small>
                                     </div>
                                 </div>
                             </div>

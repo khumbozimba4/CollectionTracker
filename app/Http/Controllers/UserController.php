@@ -33,7 +33,10 @@ class UserController extends Controller
                 ->whereHas('roles', function ($query) {
                     $query->where('name', 'salesPerson');
                 })->latest()->paginate(10);
+        } else {
+            $users = Location::with('manager')->get();
         }
+
         return view('users.users', [
             'users' => $users
         ]);
@@ -83,7 +86,7 @@ class UserController extends Controller
 
     public function DeleteUser($id)
     {
-        $user  = User::with(['customers', 'invoices'])->find($id);
+        $user  = User::with(['customers', 'invoices', 'location'])->find($id);
         if (!$user) return back()->with('warning_feedback', "user not found");
 
         try {
@@ -91,6 +94,7 @@ class UserController extends Controller
 
             // Delete associated customers
             $user->customers()->delete();
+            $user->location()->delete();
             //code...
             $user->delete();
             return redirect()->route("users")->with("feedback", "User deleted successfully");

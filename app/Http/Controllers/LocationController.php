@@ -17,7 +17,7 @@ class LocationController extends Controller
     //
     public function index(): View
     {
-        $locations = Location::with('user')->get();
+        $locations = Location::with('manager')->get();
         return view('locations.locations', compact('locations'));
     }
     public function createLoaction(): View
@@ -29,12 +29,12 @@ class LocationController extends Controller
     }
     public function viewLocation($id): View
     {
-        $location = Location::with('user')->find($id);
+        $location = Location::with('manager')->find($id);
         return view('locations.viewlocation', compact('location'));
     }
     public function editLocation($id): View
     {
-        $location = Location::with('user')->find($id);
+        $location = Location::with('manager')->find($id);
         $users = User::select('id', 'name')->get();
         return view('locations.editlocation', compact('location', 'users'));
     }
@@ -80,6 +80,14 @@ class LocationController extends Controller
         }
     }
 
+    public function LocationSalesperson($id)
+    {
+        $location = Location::with('salesPersons')->find($id);
+        $users = $location->salesPersons;
+
+        return view('users.locationSalesPersons', compact('users'));
+    }
+
     public function ManagerLocation($id)
     {
         $location_report = [];
@@ -116,7 +124,8 @@ class LocationController extends Controller
         $location_report["target"] = ($totalAmount + $totalDebitAdjustment) - $totalCreditAdjustment;
         $location_report["total_collected"] = $invoices->sum("amount_paid");
         // dd($location_report["total_collected"]);
-        $location_report["total_remaining"] = $location_report["target"] - $location_report["total_collected"]; // $invoices->sum("balance");
+        $total_remaining = $location_report["target"] - $location_report["total_collected"];
+        $location_report["total_remaining"] = $total_remaining;
         $location_report["customers"] = $customers;
         $location_report['totalSalesPersons'] = $totalSalespersons;
 

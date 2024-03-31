@@ -32,12 +32,12 @@
                                 <div class="widget-stat card">
                                     <div class="card-body">
                                         <h4 class="card-title">Total Target</h4>
-                                        <h3>MWK {{ $data['target'] }}</h3>
+                                        <h3>MWK {{ number_format($data['target']) }}</h3>
                                         <div class="progress mb-2">
                                             <div class="progress-bar progress-animated bg-primary"
                                                 style="width: {{ $data['target'] }}%"></div>
                                         </div>
-                                        <small>MWK {{ $data['target'] }} </small>
+                                        <small>MWK {{ number_format($data['target']) }} </small>
                                     </div>
                                 </div>
                             </div>
@@ -54,14 +54,14 @@
                                 <div class="widget-stat card">
                                     <div class="card-body">
                                         <h4 class="card-title">Total Collected</h4>
-                                        <h3>MWK {{ $data['total_collected'] }}</h3>
+                                        <h3>MWK {{ number_format($data['total_collected']) }}</h3>
                                         <div class="progress mb-2">
                                             <div class="progress-bar progress-animated @if ($percent >= 90) bg-success
                                                 @else
                                                 bg-warning @endif"
                                                 style="width: {{ $data['total_collected'] }}%"></div>
                                         </div>
-                                        <small>MWK {{ $data['total_collected'] }} </small>
+                                        <small>MWK {{ number_format($data['total_collected']) }} </small>
                                     </div>
                                 </div>
                             </div>
@@ -70,12 +70,12 @@
                                 <div class="widget-stat card">
                                     <div class="card-body">
                                         <h4 class="card-title">Total Remaining</h4>
-                                        <h3>MWK {{ $data['total_remaining'] }}</h3>
+                                        <h3>MWK {{ number_format($data['total_remaining']) }}</h3>
                                         <div class="progress mb-2">
-                                            <div class="progress-bar progress-animated bg-red"
-                                                style="width: {{ $data['total_remaining'] }}%"></div>
+                                            <div class="progress-bar progress-animated"
+                                                style="background-color:red;width: {{ $data['total_remaining'] }}%"></div>
                                         </div>
-                                        <small>MWK {{ $data['total_remaining'] }} </small>
+                                        <small>MWK {{ number_format($data['total_remaining']) }} </small>
                                     </div>
                                 </div>
                             </div>
@@ -95,19 +95,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-4 col-xxl-4 col-sm-6">
-                                <div class="widget-stat card">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Total SalesPersons</h4>
-                                        <h3>{{ $data['totalSalesPersons'] }}</h3>
-                                        <div class="progress mb-2">
-                                            <div class="progress-bar progress-animated bg-red"
-                                                style="width: {{ $data['customers'] }}%"></div>
+                            @isset($data['totalSalesPersons'])
+
+                                <div class="col-xl-4 col-xxl-4 col-sm-6">
+                                    <div class="widget-stat card">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Total SalesPersons</h4>
+                                            <h3>{{ $data['totalSalesPersons'] }}</h3>
+                                            <div class="progress mb-2">
+                                                <div class="progress-bar progress-animated bg-red"
+                                                    style="width: {{ $data['customers'] }}%"></div>
+                                            </div>
+                                            <small>{{ $data['totalSalesPersons'] }}</small>
                                         </div>
-                                        <small>{{ $data['totalSalesPersons'] }}</small>
                                     </div>
                                 </div>
-                            </div>
+                            @endisset
                         </div>
 
 

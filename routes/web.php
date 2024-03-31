@@ -33,8 +33,17 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports');
+    Route::post('/reports/search', [ReportController::class, 'Search'])->name('reports.search');
+
     Route::get('/customers', [CustomerController::class, 'index'])->name('customers');
     Route::get('/customers/view/{id}', [CustomerController::class, 'viewcustomer'])->name('customers.view');
+
+
+    Route::get('/locations', [LocationController::class, 'index'])->name('locations');
+    Route::get('/locations/edit/{id}', [LocationController::class, 'editLocation'])->name('locations.edit');
+    Route::get('/locations/view/{id}', [LocationController::class, 'viewLocation'])->name('locations.view');
 
 
 
@@ -56,22 +65,19 @@ Route::middleware('auth')->group(function () {
 
 Route::group(['middleware' => ['role:Head']], function () {
     Route::get('/manager/locations/{id}', [LocationController::class, "ManagerLocation"])->name("location.manager");
+    Route::get('/manager/locations/salesperson/{id}', [LocationController::class, "LocationSalesperson"])->name("location.salesperson");
 });
 
 //routes for admin
 Route::group(['middleware' => ['role:admin']], function () {
 
-    Route::get('/locations', [LocationController::class, 'index'])->name('locations');
-    Route::get('/locations/edit/{id}', [LocationController::class, 'editLocation'])->name('locations.edit');
-    Route::get('/locations/view/{id}', [LocationController::class, 'viewLocation'])->name('locations.view');
     Route::get('/locations/create', [LocationController::class, 'createLoaction'])->name('locations.new');
     Route::delete('/locations/delete/{id}', [LocationController::class, 'deleteLocation'])->name('deleteLocation');
     Route::post('/locations/submit', [LocationController::class, 'createLoactionstore'])->name("locations.submit");
     Route::post('/locations/update/{id}', [LocationController::class, 'updateLoactionstore'])->name("locations.update");
 
 
-    Route::get('/reports', [ReportController::class, 'index'])->name('reports');
-    Route::post('/reports/search', [ReportController::class, 'Search'])->name('reports.search');
+
     Route::get('/reports/crb/{id}', [ReportController::class, 'crbviewgroup'])->name('reports.crb.group');
 
 

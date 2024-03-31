@@ -38,6 +38,7 @@
 
                         </div>
                         <hr>
+                        @endif
 
                         <div class="row">
                             <div class="col-md-2 col-lg-2 text-center">
@@ -54,7 +55,7 @@
 
                                     <div class="col-md-4 col-lg-4">
                                         <label>Manager:</label>
-                                        <p><b>{{ $location->user->name }}</b></p>
+                                        <p><b>{{ $location->manager->name }}</b></p>
                                     </div>
 
 
@@ -72,7 +73,6 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
 
 
 

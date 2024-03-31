@@ -101,9 +101,18 @@
                         </div>
                       @endif
                       <div class="form-group col-md-6 col-lg-6">
-                        <label for="exampleInputName1">Amount Collected</label>
-                        <input type="number" min="0" class="form-control" id="exampleInputName1" placeholder="Amount Collected" name="amount_paid" style="@error('amount_paid')border:1px red solid;@enderror" value="{{$invoice->amount_paid}}">
+                        <label for="exampleInputName1">Total Invoice Amount Collected</label>
+                        <input type="number" min="0" readonly class="form-control" id="exampleInputName1" placeholder="Amount Collected" name="amount_paid" style="@error('amount_paid')border:1px red solid;@enderror" value="{{$invoice->amount_paid}}">
                         @error('amount_paid')
+                            <div style="color: red;">
+                                {{ $message }}
+                            </div>
+                         @enderror
+                      </div>
+                      <div class="form-group col-md-6 col-lg-6">
+                        <label for="exampleInputName1">Amount Collected</label>
+                        <input type="number" min="0" class="form-control" id="exampleInputName1" placeholder="Amount Collected" name="current_amount_collected" style="@error('current_amount_collected')border:1px red solid;@enderror" value="{{$invoice->current_amount_collected}}">
+                        @error('current_amount_collected')
                             <div style="color: red;">
                                 {{ $message }}
                             </div>
@@ -116,6 +125,7 @@
                              <option value="{{$invoice->status}}" selected>{{$invoice->status}}</option>
                               <option  value="NOTPAID">NOT PAID</option>
                               <option value="PARTIALYPAID">PARTIALY PAID</option>
+                              <option value="PAID">FULLY PAID</option>
                        </select>
                        @error('status')
                             <div style="color: red;">

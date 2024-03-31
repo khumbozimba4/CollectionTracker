@@ -44,7 +44,7 @@
                           <div class="form-group col-md-6 col-lg-6">
                             <label for="exampleInputName1">Manager</label>
                                 <select class="form-control" name="user_id" style="@error('user_id')border:1px red solid;@enderror">
-                                    <option value="{{$location->user_id}}" selected>{{$location->user->name}}</option>
+                                    <option value="{{$location->user_id}}" selected>{{$location->manager->name}}</option>
                                     @foreach ($users as $item)
                                         <option value="{{$item->id}}">{{$item->name}}</option>
                                     @endforeach

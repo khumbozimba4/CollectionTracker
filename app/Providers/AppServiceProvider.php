@@ -24,7 +24,13 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('dashboard', function ($view) {
             $data = Notification::PrepareDashboard();
             $stackedData = Notification::PrepareReportDashboard();
-            $view->with(['data'=> $data,'stackedData'=>$stackedData]);
+            $view->with(['data' => $data, 'stackedData' => $stackedData]);
+        });
+
+        view()->composer('components.app.sidebar-navigation', function ($view) {
+            $data = Notification::PrepareDashboard();
+            $stackedData = Notification::PrepareReportDashboard();
+            $view->with(['data' => $data, 'stackedData' => $stackedData]);
         });
     }
 }

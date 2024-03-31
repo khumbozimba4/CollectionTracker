@@ -26,7 +26,7 @@ class InvoiceController extends Controller
         $currentMonth = Carbon::now()->month;
         $currentYear = Carbon::now()->year;
 
-        if (auth()->user()->hasRole("admin")) {
+        if (auth()->user()->hasRole("admin") || auth()->user()->hasRole("Head")) {
             $invoices = Invoice::whereMonth('created_at', $currentMonth)
                 ->whereYear('created_at', $currentYear)
                 ->latest()->paginate(10);
@@ -89,7 +89,7 @@ class InvoiceController extends Controller
             } else {
                 $invoice->is_reviewed = 1;
                 $invoice->remarks = $request->remarks;
-
+                $invoice->current_amount_collected = 0;
                 $invoice->save();
                 return redirect()->back()->with('feedback', 'Invoice amount rejected successfully!');
             }
@@ -175,17 +175,19 @@ class InvoiceController extends Controller
             $validatedData = $request->validate([
                 'status' => 'required',
                 'amount_paid' => 'required|numeric',
+                'current_amount_collected' => 'required|numeric',
             ]);
 
             $totalAmount = $invoice->amount;
             $totalCreditAdjustment = $invoice->credit_adjustment;
             $totalDebitAdjustment = $invoice->debit_adjustment;
-            $target = ($totalAmount + $totalDebitAdjustment) - $totalCreditAdjustment;
-            $total_collected = $request->amount_paid;
+            // $target = ($totalAmount + $totalDebitAdjustment) - $totalCreditAdjustment;
+            //  $total_collected = $request->amount_paid;
             $invoice->status  = $request->status;
-            $balance = $target - $total_collected;
-            $invoice->amount_paid = $total_collected;
-            $invoice->balance = $balance;
+            //$balance = $target - $total_collected;
+            // $invoice->amount_paid = $total_collected;
+            $invoice->is_reviewed = 0;
+            $invoice->current_amount_collected = $request->current_amount_collected;
 
             $invoice->save();
         } else {
@@ -200,8 +202,10 @@ class InvoiceController extends Controller
                 'customer_id' => 'required|exists:customers,id',
                 'debit_adjustment' => 'required',
                 'credit_adjustment' => 'required',
-            ]);
+                'current_amount_collected' => 'required|numeric',
 
+            ]);
+            $request->merge(['is_reviewed' => 0]);
             $invoice->update($request->all());
         }
 

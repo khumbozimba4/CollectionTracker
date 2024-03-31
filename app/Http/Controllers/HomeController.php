@@ -7,7 +7,6 @@ use App\Models\Invoice;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-
 class HomeController extends Controller
 {
     //
@@ -27,7 +26,7 @@ class HomeController extends Controller
             "searchValue" => 'required'
         ]);
         $query = $request->searchValue;
-        $users = User::where('email', 'like', "%$query%")->get();
+        $users = User::where('email', 'like', "%$query%")->paginate(100);
 
         return view('users.users', compact('users'));
     }

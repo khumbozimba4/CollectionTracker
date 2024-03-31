@@ -30,6 +30,7 @@ class Notification
         $currentYear = Carbon::now()->year;
 
         if (auth()->user()->hasRole("salesPerson")) {
+
             $customers  = Customer::where("user_id", auth()->user()->id)->count();
             $invoices = Invoice::where("user_id", auth()->user()->id)
                 ->whereMonth('created_at', $currentMonth)
@@ -65,10 +66,16 @@ class Notification
                 ->select("amount", "credit_adjustment", "debit_adjustment", "amount_paid", "balance")
                 ->get();
             $customers  = Customer::count();
-            $totalSalespersons = 0;
+            $totalSalespersons =  User::whereHas('roles', function ($query) {
+                $query->where('name', 'salesPerson');
+            })->count();
             // dd($invoices);
         }
-
+        $invoicesCount = Invoice::whereMonth('created_at', $currentMonth)
+            ->whereYear('created_at', $currentYear)
+            ->where('is_reviewed', 0)
+            ->where('current_amount_collected', '>', '0')
+            ->count();
         if (isset($invoices)) {
 
 
@@ -76,16 +83,22 @@ class Notification
             $totalCreditAdjustment = $invoices->sum('credit_adjustment');
             $totalDebitAdjustment = $invoices->sum('debit_adjustment');
 
-            $data["target"] = ($totalAmount + $totalDebitAdjustment) - $totalCreditAdjustment;
+            $data["target"] =  ($totalAmount + $totalDebitAdjustment) - $totalCreditAdjustment;
+
             $data["total_collected"] = $invoices->sum("amount_paid");
+
             // dd($data["total_collected"]);
-            $data["total_remaining"] = $data["target"] - $data["total_collected"]; // $invoices->sum("balance");
+            $data["total_remaining"] = $data["target"] - $data["total_collected"]; // $invoices->;
             $data["customers"] = $customers;
-            $data['totalSalesPersons'] = $totalSalespersons;
+            if (isset($totalSalespersons)) {
+
+                $data['totalSalesPersons'] = $totalSalespersons;
+            }
         }
         if (isset($managers)) {
             $data['managers'] = $managers;
         }
+        $data["invoicesCount"] = $invoicesCount;
         return $data;
     }
     public static function PrepareReportDashboard()
@@ -124,7 +137,8 @@ class Notification
             $target = ($totalAmount + $totalDebitAdjustment) - $totalCreditAdjustment;
 
             $balanceAmount = $target - $collectedAmount;
-            //$balanceAmount =
+
+
 
             $stackedData['datasets'][] = [
                 'backgroundColor' => 'rgba(255, 99, 132, 0.5)', // You can adjust colors as needed

@@ -24,12 +24,14 @@
   <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
+                    @if (auth()->user()->hasRole('admin'))
 
                     <form method="POST" class="float-end" action="{{route('deleteCustomer',[$customer->id])}}">
                         @csrf
                         @method('delete')
                             <button class="btn btn-danger dltBtn" data-id={{$customer->id}}  data-text="Are you sure you want to delete this customer? This is irreversible."><i class="fa fa-remove"></i> Delete customer</button>
                     </form>
+                    @endif
 
                   <div class="row">
                         <div class="col-md-2 col-lg-2 text-center">
@@ -78,11 +80,6 @@
                   </div>
                 </div>
               </div>
-{{-- END OF INFO SECTION --}}
 
-{{-- Customers TABLE --}}
-
-
-{{-- END OF Customers TABLE --}}
 </x-app-layout>
 

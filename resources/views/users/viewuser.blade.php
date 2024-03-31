@@ -97,7 +97,7 @@
                         </div>
                     @endif
 
-                    @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('manager'))
+                    @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('manager') || auth()->user()->hasRole('Head'))
                         <div class="row">
                             <div class="col-xl-3 col-xxl-3 col-sm-6">
                                 <div class="widget-stat card">

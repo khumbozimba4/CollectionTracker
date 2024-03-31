@@ -1,8 +1,14 @@
 <x-app-layout>
 
     <div class="page-header">
+
+
+        @if (auth()->user()->hasRole('admin'))
+
         <a href="{{ route('locations.new') }}"><button class="btn btn-primary" type="button"><i class="fa fa-plus"></i> New
-                Location</button></a>
+                Location</button>
+        </a>
+        @endif
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active" aria-current="page">Locations</li>
@@ -62,7 +68,7 @@
                                     <tr>
 
                                         <td> {{ $location->location_name }} </td>
-                                        <td> {{ $location->user->name }} </td>
+                                        <td> {{ $location->manager->name }} </td>
 
                                         <td> {{ $location->created_at->diffForHumans() }} </td>
 
@@ -71,8 +77,6 @@
 
                                         <td> <a class="btn btn-primary" href="{{ route('locations.view', $location->id) }}">More <i
                                                     class="mdi mdi-arrow-right"></i> </a> </td>
-
-
 
                                     </tr>
 
