@@ -81,13 +81,13 @@ class InvoiceController extends Controller
             $is_reviewed = $request->is_reviewed;
             if ($is_reviewed == 0) {
                 $invoice->amount_paid += $request->current_amount_collected;
-                $invoice->is_reviewed = 0;
+                $invoice->is_reviewed = '0';
                 $invoice->current_amount_collected = 0;
                 $invoice->remarks = $request->remarks;
                 $invoice->save();
                 return redirect()->back()->with('feedback', 'Invoice amount accepted successfully!');
             } else {
-                $invoice->is_reviewed = 1;
+                $invoice->is_reviewed = '1';
                 $invoice->remarks = $request->remarks;
                 $invoice->current_amount_collected = 0;
                 $invoice->save();
@@ -186,7 +186,7 @@ class InvoiceController extends Controller
             $invoice->status  = $request->status;
             //$balance = $target - $total_collected;
             // $invoice->amount_paid = $total_collected;
-            $invoice->is_reviewed = 0;
+            $invoice->is_reviewed = '0';
             $invoice->current_amount_collected = $request->current_amount_collected;
 
             $invoice->save();
@@ -205,7 +205,7 @@ class InvoiceController extends Controller
                 'current_amount_collected' => 'required|numeric',
 
             ]);
-            $request->merge(['is_reviewed' => 0]);
+            $request->merge(['is_reviewed' => '0']);
             $invoice->update($request->all());
         }
 
