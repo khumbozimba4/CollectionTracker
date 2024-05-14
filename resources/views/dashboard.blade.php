@@ -10,24 +10,27 @@
 
             <div class="content-body">
                 <div class="container-fluid">
-                    @if (auth()->user()->hasRole('Head'))
+
                         <div class="row">
-                            @foreach ($data['managers'] as $manager)
-                                <div class="col-xl-6 col-xxl-6 col-sm-6 sm:mt2">
-                                    <div class="widget-stat card">
-                                        <div class="card-body">
-                                            <h4 class="card-title">{{ $manager->location_name }}</h4>
-                                            <h3>Managed By:
-                                                <small>{{ $manager->manager->name }}</small>
-                                            </h3>
-                                            <a class="btn btn-link float-end" href="{{route('location.manager',['id'=>$manager->id])}}">More>></a>
+
+                            @if (auth()->user()->hasRole('Head'))
+                                <div class="row mb-4">
+                                    @foreach ($data['managers'] as $manager)
+                                        <div class="col-xl-6 col-xxl-6 col-sm-6 sm:mt2">
+                                            <div class="widget-stat card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">{{ $manager->location_name }}</h4>
+                                                    <h3>Managed By:
+                                                        <small>{{ $manager->manager->name }}</small>
+                                                    </h3>
+                                                    <a class="btn btn-link float-end" href="{{route('location.manager',['id'=>$manager->id])}}">More>></a>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endforeach
                                 </div>
-                            @endforeach
-                        </div>
-                    @else
-                        <div class="row">
+                            @endif
+
                             <div class="col-xl-4 col-xxl-4 col-sm-6">
                                 <div class="widget-stat card">
                                     <div class="card-body">
@@ -114,8 +117,8 @@
                         </div>
 
 
-                        @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('manager'))
-                            <div class="col-md-12 col-lg-12 col-sm-12">
+                        @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('Head') || auth()->user()->hasRole('manager'))
+                        <div class="col-md-12 col-lg-12 col-sm-12">
                                 <div class="mt-4">
                                     <canvas id="stacked"></canvas>
                                 </div>
@@ -127,14 +130,14 @@
                                 <canvas id="myChart"></canvas>
                             </div>
                         </div>
-                    @endif
+
                 </div>
             </div>
         </div>
     </div>
     </div>
 
-    @if (!auth()->user()->hasRole('Head'))
+    {{-- @if (!auth()->user()->hasRole('Head')) --}}
 
         @section('scripts')
             <script>
@@ -169,7 +172,6 @@
 
 
                 var groupedData = {!! $stackedData !!};
-
                 // Iterate through the datasets to adjust the colors based on the target achievement
                 groupedData.datasets.forEach(dataset => {
                     let collectedAmount = dataset.data[0];
@@ -177,8 +179,6 @@
                     let target = collectedAmount + remainingAmount;
                     let percentCollected = (collectedAmount / target) * 100;
 
-                    console.log("collected amount: " + collectedAmount)
-                    console.log("remaining amount: " + remainingAmount)
                     // Set colors based on target achievement
                     if (percentCollected >= 90) {
                         dataset.backgroundColor = ['rgba(0, 251, 30, 0.97)', 'rgba(rgba(0, 251, 30, 0.97)']; // Green
@@ -253,6 +253,6 @@
                 new Chart(stacked, config);
             </script>
         @endsection
-    @endif
+    {{-- @endif --}}
 
 </x-app-layout>

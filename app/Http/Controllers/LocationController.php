@@ -111,7 +111,7 @@ class LocationController extends Controller
             ->select("amount", "credit_adjustment", "debit_adjustment", "amount_paid", "balance")
             ->get();
 
-
+        // dd($invoices);
         $customers = Customer::whereIn('user_id', $salesPersonIds)->count();
 
 
@@ -148,13 +148,25 @@ class LocationController extends Controller
         foreach ($users as $user) {
             $stackedData['labels'][] = $user->name;
 
-            $collectedAmount = Invoice::where('user_id', $user->id)->sum('amount_paid');
-            $balanceAmount = Invoice::where('user_id', $user->id)->sum('balance');
+            $query = Invoice::where('user_id', $user->id)
+                ->whereMonth('created_at', $currentMonth)
+                ->whereYear('created_at', $currentYear);
 
-            $totalAmount = Invoice::where('user_id', $user->id)->sum('amount');
+            $collectedAmount = $query->sum('amount_paid');
+            $balanceAmount = $query->sum('balance');
+            $totalAmount = $query->sum('amount');
+            $totalCreditAdjustment = $query->sum('credit_adjustment');
+            $totalDebitAdjustment = $query->sum('debit_adjustment');
 
-            $totalCreditAdjustment = Invoice::where('user_id', $user->id)->sum('credit_adjustment');
-            $totalDebitAdjustment = Invoice::where('user_id', $user->id)->sum('debit_adjustment');
+
+
+            // $collectedAmount = Invoice::where('user_id', $user->id)->sum('amount_paid');
+            // $balanceAmount = Invoice::where('user_id', $user->id)->sum('balance');
+
+            // $totalAmount = Invoice::where('user_id', $user->id)->sum('amount');
+
+            // $totalCreditAdjustment = Invoice::where('user_id', $user->id)->sum('credit_adjustment');
+            // $totalDebitAdjustment = Invoice::where('user_id', $user->id)->sum('debit_adjustment');
 
             $target = ($totalAmount + $totalDebitAdjustment) - $totalCreditAdjustment;
 

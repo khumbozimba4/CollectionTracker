@@ -2,18 +2,9 @@
 
 namespace App\Classes;
 
-use App\Models\Application;
-use App\Models\Article;
-use App\Models\Comment;
 use App\Models\Customer;
-use App\Models\Download;
-use App\Models\Faq;
 use App\Models\Invoice;
-use App\Models\Link;
 use App\Models\Location;
-use App\Models\News;
-use App\Models\Press;
-use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
 use PHPMailer\PHPMailer\Exception;
@@ -21,20 +12,26 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class Notification
 {
-    public static function PrepareDashboard()
+    protected static function getCurrentMonth()
+    {
+        return Carbon::now()->month;
+    }
+
+    protected static function getCurrentYear()
+    {
+        return Carbon::now()->year;
+    }
+    public  static function PrepareDashboard()
     {
 
         $data = [];
-
-        $currentMonth = Carbon::now()->month;
-        $currentYear = Carbon::now()->year;
 
         if (auth()->user()->hasRole("salesPerson")) {
 
             $customers  = Customer::where("user_id", auth()->user()->id)->count();
             $invoices = Invoice::where("user_id", auth()->user()->id)
-                ->whereMonth('created_at', $currentMonth)
-                ->whereYear('created_at', $currentYear)
+                ->whereMonth('created_at', self::getCurrentMonth())
+                ->whereYear('created_at', self::getCurrentYear())
                 ->select("amount", "credit_adjustment", "debit_adjustment", "amount_paid", "balance")
                 ->get();
         } else if (auth()->user()->hasRole("manager")) {
@@ -47,8 +44,8 @@ class Notification
             $salesPersonIds = $managerLocation->salesPersons->pluck('id')->toArray();
 
             $invoices = Invoice::whereIn('user_id', $salesPersonIds)
-                ->whereMonth('created_at', $currentMonth)
-                ->whereYear('created_at', $currentYear)
+                ->whereMonth('created_at', self::getCurrentMonth())
+                ->whereYear('created_at', self::getCurrentYear())
                 ->select("amount", "credit_adjustment", "debit_adjustment", "amount_paid", "balance")
                 ->get();
 
@@ -57,22 +54,23 @@ class Notification
 
 
             $totalSalespersons = $managerLocation->salespersons()->count();
-        } else if (auth()->user()->hasRole('Head')) {
-            $managers = Location::with('manager')->get();
+            //} else if (auth()->user()->hasRole('Head')) {
+            //   $managers = Location::with('manager')->get();
         } else {
+            $managers = Location::with('manager')->get();
 
-            $invoices = Invoice::whereMonth('created_at', $currentMonth)
-                ->whereYear('created_at', $currentYear)
+            $invoices = Invoice::whereMonth('created_at', self::getCurrentMonth())
+                ->whereYear('created_at', self::getCurrentYear())
                 ->select("amount", "credit_adjustment", "debit_adjustment", "amount_paid", "balance")
                 ->get();
             $customers  = Customer::count();
             $totalSalespersons =  User::whereHas('roles', function ($query) {
                 $query->where('name', 'salesPerson');
             })->count();
-            // dd($invoices);
+            //dd($invoices);
         }
-        $invoicesCount = Invoice::whereMonth('created_at', $currentMonth)
-            ->whereYear('created_at', $currentYear)
+        $invoicesCount = Invoice::whereMonth('created_at', self::getCurrentMonth())
+            ->whereYear('created_at', self::getCurrentYear())
             ->where('is_reviewed', 0)
             ->where('current_amount_collected', '>', '0')
             ->count();
@@ -99,9 +97,10 @@ class Notification
             $data['managers'] = $managers;
         }
         $data["invoicesCount"] = $invoicesCount;
+        //dd($data);
         return $data;
     }
-    public static function PrepareReportDashboard()
+    public static  function PrepareReportDashboard()
     {
 
         if (auth()->user()->hasRole('manager')) {
@@ -126,16 +125,17 @@ class Notification
         foreach ($users as $user) {
             $stackedData['labels'][] = $user->name;
 
-            $collectedAmount = Invoice::where('user_id', $user->id)->sum('amount_paid');
-            $balanceAmount = Invoice::where('user_id', $user->id)->sum('balance');
+            $query = Invoice::where('user_id', $user->id)
+                ->whereMonth('created_at', self::getCurrentMonth())
+                ->whereYear('created_at', self::getCurrentYear());
 
-            $totalAmount = Invoice::where('user_id', $user->id)->sum('amount');
-
-            $totalCreditAdjustment = Invoice::where('user_id', $user->id)->sum('credit_adjustment');
-            $totalDebitAdjustment = Invoice::where('user_id', $user->id)->sum('debit_adjustment');
+            $collectedAmount = $query->sum('amount_paid');
+            $balanceAmount = $query->sum('balance');
+            $totalAmount = $query->sum('amount');
+            $totalCreditAdjustment = $query->sum('credit_adjustment');
+            $totalDebitAdjustment = $query->sum('debit_adjustment');
 
             $target = ($totalAmount + $totalDebitAdjustment) - $totalCreditAdjustment;
-
             $balanceAmount = $target - $collectedAmount;
 
 
