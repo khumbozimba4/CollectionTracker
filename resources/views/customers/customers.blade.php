@@ -64,7 +64,6 @@
                         @if ($customers->count())
                             @foreach ($customers as $user)
                                 <tr>
-
                                     <td> {{ $user->name }} </td>
                                     <td> {{ $user->email }} </td>
                                     <td> {{ $user->phone_number }} </td>
@@ -72,11 +71,10 @@
                                     @if (auth()->user()->hasRole('admin'))
                                         <td> <a class="btn btn-warning"
                                                 href="{{ route('customers.edit', $user->id) }}"><i
-                                                    class="fa fa-edit"></i> Edit </a> </td>
+                                                class="fa fa-edit"></i> Edit </a> </td>
                                     @endif
                                     <td> <a class="btn btn-primary" href="{{ route('customers.view', $user->id) }}">More
                                             <i class="mdi mdi-arrow-right"></i> </a> </td>
-
                                 </tr>
                             @endforeach
                         @else
@@ -87,14 +85,15 @@
                     </tbody>
                 </table>
 
-                @if (!empty($customers->links))
+                @if (!empty($customers->links()))
                 <div class="d-flex justify-content-center">
                     {!! $customers->links('vendor.pagination.bootstrap-5') !!}
                 </div>
                @endif
 
 
-            </div>
+
+            </>
         </div>
     </div>
     {{-- END OF Customers TABLE --}}

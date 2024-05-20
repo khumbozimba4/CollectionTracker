@@ -49,7 +49,7 @@
 
                       <div class="form-group col-md-6 col-lg-6">
                         <label for="exampleInputName1">Invoice Amount</label>
-                        <input type="number" min="1" class="form-control" id="exampleInputName1" placeholder="Invoice Amount" name="amount" style="@error('amount')border:1px red solid;@enderror" value="{{ old('email') }}">
+                        <input type="number" min="1" class="form-control" step="any" id="exampleInputName1" placeholder="Invoice Amount" name="amount" style="@error('amount')border:1px red solid;@enderror" value="{{ old('amount') }}">
                         @error('amount')
                             <div style="color: red;">
                                 {{ $message }}
@@ -58,7 +58,7 @@
                       </div>
                       <div class="form-group col-md-6 col-lg-6">
                         <label for="exampleInputName1">Credit Adjustment</label>
-                        <input type="number" min="0" class="form-control" id="exampleInputName1" placeholder="Credit Adjustment" name="credit_adjustment" style="@error('credit_adjustment')border:1px red solid;@enderror" value="0">
+                        <input type="number" min="0" step="any" class="form-control" id="exampleInputName1" placeholder="Credit Adjustment" name="credit_adjustment" style="@error('credit_adjustment')border:1px red solid;@enderror" value="0">
                         @error('credit_adjustment')
                             <div style="color: red;">
                                 {{ $message }}
@@ -67,7 +67,7 @@
                       </div>
                       <div class="form-group col-md-6 col-lg-6">
                         <label for="exampleInputName1">Debit Adjustment</label>
-                        <input type="number" min="0" class="form-control" id="exampleInputName1" placeholder="Debit Adjustment" name="debit_adjustment" style="@error('debit_adjustment')border:1px red solid;@enderror" value="0">
+                        <input type="number" min="0" step="any" class="form-control" id="exampleInputName1" placeholder="Debit Adjustment" name="debit_adjustment" style="@error('debit_adjustment')border:1px red solid;@enderror" value="0">
                         @error('debit_adjustment')
                             <div style="color: red;">
                                 {{ $message }}
@@ -123,7 +123,7 @@
 
                       <div class="form-group col-md-6 col-lg-6">
                         <label for="exampleInputName1">Amount Paid</label>
-                        <input type="number" min="0" class="form-control" id="exampleInputName1" placeholder="Amount Paid" name="amount_paid" style="@error('amount_paid')border:1px red solid;@enderror" value="{{ old('email') }}">
+                        <input type="number" min="0" step="any" class="form-control" id="exampleInputName1" placeholder="Amount Paid" name="amount_paid" style="@error('amount_paid')border:1px red solid;@enderror" value="{{ old('amount_paid') }}">
                         @error('amount_paid')
                             <div style="color: red;">
                                 {{ $message }}

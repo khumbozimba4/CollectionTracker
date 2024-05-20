@@ -7,6 +7,7 @@ use App\Models\Invoice;
 use App\Models\Location;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -23,7 +24,7 @@ class Notification
     }
     public  static function PrepareDashboard()
     {
-
+        Log::info("tester");
         $data = [];
 
         if (auth()->user()->hasRole("salesPerson")) {

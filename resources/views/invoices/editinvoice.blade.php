@@ -41,7 +41,7 @@
 
                       <div class="form-group col-md-6 col-lg-6">
                         <label for="exampleInputName1">Invoice Amount</label>
-                        <input type="number" min="1" class="form-control" id="exampleInputName1" placeholder="Invoice Amount" name="amount" style="@error('amount')border:1px red solid;@enderror" value="{{ $invoice->amount }}">
+                        <input type="number" min="1" step="any" class="form-control" id="exampleInputName1" placeholder="Invoice Amount" name="amount" style="@error('amount')border:1px red solid;@enderror" value="{{ $invoice->amount }}">
                         @error('amount')
                             <div style="color: red;">
                                 {{ $message }}
@@ -53,7 +53,7 @@
 
                       <div class="form-group col-md-6 col-lg-6">
                         <label for="exampleInputName1">Credit Adjustment</label>
-                        <input type="number" min="0" class="form-control" id="exampleInputName1" placeholder="Credit Adjustment" name="credit_adjustment" style="@error('credit_adjustment')border:1px red solid;@enderror" value="{{ $invoice->credit_adjustment }}">
+                        <input type="number" min="0" step="any" class="form-control" id="exampleInputName1" placeholder="Credit Adjustment" name="credit_adjustment" style="@error('credit_adjustment')border:1px red solid;@enderror" value="{{ $invoice->credit_adjustment }}">
                         @error('credit_adjustment')
                             <div style="color: red;">
                                 {{ $message }}
@@ -62,7 +62,7 @@
                       </div>
                       <div class="form-group col-md-6 col-lg-6">
                         <label for="exampleInputName1">Debit Adjustment</label>
-                        <input type="number" min="0" class="form-control" id="exampleInputName1" placeholder="Debit Adjustment" name="debit_adjustment" style="@error('debit_adjustment')border:1px red solid;@enderror" value="{{ $invoice->debit_adjustment }}">
+                        <input type="number" min="0" step="any" class="form-control" id="exampleInputName1" placeholder="Debit Adjustment" name="debit_adjustment" style="@error('debit_adjustment')border:1px red solid;@enderror" value="{{ $invoice->debit_adjustment }}">
                         @error('debit_adjustment')
                             <div style="color: red;">
                                 {{ $message }}
@@ -90,7 +90,7 @@
 
                         <div class="form-group col-md-6 col-lg-6">
                           <label for="exampleInputName1">Choose customer</label>
-                          <select class="form-control" disabled id="customer-list" name="customer_id" required style="@error('customer_id')border:1px red solid;@enderror">
+                          <select class="form-control"  id="customer-list" name="customer_id" required style="@error('customer_id')border:1px red solid;@enderror">
                                 <option selected value="{{$invoice->customer->id}}">{{$invoice->customer->name}}</option>
                           </select>
                           @error('customer_id')
@@ -102,7 +102,7 @@
                       @endif
                       <div class="form-group col-md-6 col-lg-6">
                         <label for="exampleInputName1">Total Invoice Amount Collected</label>
-                        <input type="number" min="0" readonly class="form-control" id="exampleInputName1" placeholder="Amount Collected" name="amount_paid" style="@error('amount_paid')border:1px red solid;@enderror" value="{{$invoice->amount_paid}}">
+                        <input type="number" min="0" step="any" readonly class="form-control" id="exampleInputName1" placeholder="Amount Collected" name="amount_paid" style="@error('amount_paid')border:1px red solid;@enderror" value="{{$invoice->amount_paid}}">
                         @error('amount_paid')
                             <div style="color: red;">
                                 {{ $message }}
@@ -111,7 +111,7 @@
                       </div>
                       <div class="form-group col-md-6 col-lg-6">
                         <label for="exampleInputName1">Amount Collected</label>
-                        <input type="number" min="0" class="form-control" id="exampleInputName1" placeholder="Amount Collected" name="current_amount_collected" style="@error('current_amount_collected')border:1px red solid;@enderror" value="{{$invoice->current_amount_collected}}">
+                        <input type="number" min="0" step="any" class="form-control" id="exampleInputName1" placeholder="Amount Collected" name="current_amount_collected" style="@error('current_amount_collected')border:1px red solid;@enderror" value="{{$invoice->current_amount_collected}}">
                         @error('current_amount_collected')
                             <div style="color: red;">
                                 {{ $message }}

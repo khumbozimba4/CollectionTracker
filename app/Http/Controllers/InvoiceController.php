@@ -191,7 +191,7 @@ class InvoiceController extends Controller
 
             $invoice->save();
         } else {
-
+            // dd($request->all());
 
             $validatedData = $request->validate([
                 'invoice_number' => 'required',

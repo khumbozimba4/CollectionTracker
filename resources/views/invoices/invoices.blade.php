@@ -48,8 +48,8 @@
                             <th> Balance </th>
                             <th> Status </th>
                             <th> Updated </th>
-                            <th> Created </th>
                             <th> Edit </th>
+                            <th> Created </th>
                             <th> More </th>
                         </tr>
                     </thead>
