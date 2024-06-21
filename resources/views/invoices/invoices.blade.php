@@ -61,10 +61,10 @@
                                     <td> {{ $invoice->invoice_number }} </td>
                                     <td> {{ $invoice->customer->name }} </td>
                                     <td> {{ $invoice->user->name }} </td>
-                                    <td> {{ $invoice->amount + $invoice->debit_adjustment - $invoice->credit_adjustment }}
+                                    <td> {{ number_format($invoice->amount + $invoice->debit_adjustment - $invoice->credit_adjustment,2,'.', ',')}}
                                     </td>
-                                    <td> {{ $invoice->amount_paid }} </td>
-                                    <td> {{ $invoice->amount + $invoice->debit_adjustment - $invoice->credit_adjustment - $invoice->amount_paid }}
+                                    <td> {{ number_format($invoice->amount_paid,2,'.', ',') }} </td>
+                                    <td> {{ number_format($invoice->amount + $invoice->debit_adjustment - $invoice->credit_adjustment - $invoice->amount_paid ,2,'.', ',')}}
                                     </td>
                                     <td>
                                         @if ($invoice->status == 'PARTIALYPAID')

@@ -7,6 +7,7 @@ use App\Models\Invoice;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+
 class HomeController extends Controller
 {
     //
@@ -16,7 +17,7 @@ class HomeController extends Controller
             "searchValue" => 'required'
         ]);
         $query = $request->searchValue;
-        $invoices = Invoice::where('invoice_number', 'like', "%$query%")->get();
+        $invoices = Invoice::where('invoice_number', 'like', "%$query%")->paginate(10);
 
         return view('invoices.invoices', compact('invoices'));
     }
@@ -36,7 +37,7 @@ class HomeController extends Controller
             "searchValue" => 'required'
         ]);
         $query = $request->searchValue;
-        $customers = Customer::where('name', 'like', "%$query%")->get();
+        $customers = Customer::where('name', 'like', "%$query%")->paginate(10);
 
         return view('customers.customers', compact('customers'));
     }

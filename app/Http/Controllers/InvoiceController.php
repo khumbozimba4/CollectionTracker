@@ -46,10 +46,11 @@ class InvoiceController extends Controller
                 ->paginate();
         } else if (auth()->user()->hasRole("Treasurer")) {
 
+            // dd(auth()->user());
             $invoices = Invoice::whereMonth('created_at', $currentMonth)
                 ->whereYear('created_at', $currentYear)
                 ->where('is_reviewed', '=', '0')
-                ->where('current_amount_collected', '>', '0')
+                ->where('current_amount_collected', '>=', '0')
                 ->latest()->paginate(10);
         } else {
             $invoices = Invoice::where("user_id", auth()->user()->id)

@@ -42,7 +42,12 @@ class Notification
             $managerLocation = Location::where('user_id', $managerId)->with('salesPersons')->first();
 
             // Assuming you want to get IDs of all salespersons associated with the manager's location
-            $salesPersonIds = $managerLocation->salesPersons->pluck('id')->toArray();
+
+            if (isset($managerLocation->salesPersons))
+                $salesPersonIds = $managerLocation->salesPersons->pluck('id')->toArray();
+            else
+                $salesPersonIds = array();
+
 
             $invoices = Invoice::whereIn('user_id', $salesPersonIds)
                 ->whereMonth('created_at', self::getCurrentMonth())
@@ -53,8 +58,10 @@ class Notification
 
             $customers = Customer::whereIn('user_id', $salesPersonIds)->count();
 
-
-            $totalSalespersons = $managerLocation->salespersons()->count();
+            if (isset($managerLocation->salesPersons))
+                $totalSalespersons = $managerLocation->salespersons()->count();
+            else
+                $totalSalespersons = 0;
             //} else if (auth()->user()->hasRole('Head')) {
             //   $managers = Location::with('manager')->get();
         } else {
@@ -72,9 +79,13 @@ class Notification
         }
         $invoicesCount = Invoice::whereMonth('created_at', self::getCurrentMonth())
             ->whereYear('created_at', self::getCurrentYear())
-            ->where('is_reviewed', 0)
-            ->where('current_amount_collected', '>', '0')
+            ->where('is_reviewed', '0')
+            ->where('current_amount_collected', '>=', '0')
             ->count();
+
+
+
+        //  dd($invoicesCount);
         if (isset($invoices)) {
 
 
@@ -107,6 +118,7 @@ class Notification
         if (auth()->user()->hasRole('manager')) {
             $managerId = auth()->user()->id;
 
+            //dd(auth()->user());
             $managerLocationId = Location::where('user_id', $managerId)->first()->id;
 
             $users = User::whereHas('roles', function ($query) {

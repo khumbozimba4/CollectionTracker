@@ -22,9 +22,9 @@
                   <div class="card-body">
                     <form class="forms-sample" action="{{route('invoices.edit', $invoice->id)}}" method="post">
 
-                      <h4>Invoice Amount: {{($invoice->amount+$invoice->debit_adjustment)-$invoice->credit_adjustment}}</h4> <br>
-                      <h4>Credit Adjustment: {{$invoice->credit_adjustment}}</h4> <br>
-                      <h4>Debit Adjustment: {{$invoice->debit_adjustment}}</h4> <br>
+                      <h4>Invoice Amount: {{number_format(($invoice->amount+$invoice->debit_adjustment)-$invoice->credit_adjustment,2,'.',',')}}</h4> <br>
+                      <h4>Credit Adjustment: {{ number_format($invoice->credit_adjustment,2,'.',',')}}</h4> <br>
+                      <h4>Debit Adjustment: {{ number_format($invoice->debit_adjustment,2,'.',',')}}</h4> <br>
                     @csrf
                     <div class="row">
                       @if (auth()->user()->hasRole("admin"))

@@ -35,12 +35,12 @@
                                 <div class="widget-stat card">
                                     <div class="card-body">
                                         <h4 class="card-title">Total Target</h4>
-                                        <h3>MWK {{ number_format($data['target']) }}</h3>
+                                        <h3>MWK {{ number_format($data['target'],2) }}</h3>
                                         <div class="progress mb-2">
                                             <div class="progress-bar progress-animated bg-primary"
                                                 style="width: {{ $data['target'] }}%"></div>
                                         </div>
-                                        <small>MWK {{ number_format($data['target']) }} </small>
+                                        <small>MWK {{ number_format($data['target'],2) }} </small>
                                     </div>
                                 </div>
                             </div>
@@ -57,14 +57,14 @@
                                 <div class="widget-stat card">
                                     <div class="card-body">
                                         <h4 class="card-title">Total Collected</h4>
-                                        <h3>MWK {{ number_format($data['total_collected']) }}</h3>
+                                        <h3>MWK {{ number_format($data['total_collected'], 2) }}</h3>
                                         <div class="progress mb-2">
                                             <div class="progress-bar progress-animated @if ($percent >= 90) bg-success
                                                 @else
                                                 bg-warning @endif"
                                                 style="width: {{ $data['total_collected'] }}%"></div>
                                         </div>
-                                        <small>MWK {{ number_format($data['total_collected']) }} </small>
+                                        <small>MWK {{ number_format($data['total_collected'],2) }} </small>
                                     </div>
                                 </div>
                             </div>
@@ -73,12 +73,12 @@
                                 <div class="widget-stat card">
                                     <div class="card-body">
                                         <h4 class="card-title">Total Remaining</h4>
-                                        <h3>MWK {{ number_format($data['total_remaining']) }}</h3>
+                                        <h3>MWK {{ number_format($data['total_remaining'], 2) }}</h3>
                                         <div class="progress mb-2">
                                             <div class="progress-bar progress-animated"
                                                 style="background-color:red;width: {{ $data['total_remaining'] }}%"></div>
                                         </div>
-                                        <small>MWK {{ number_format($data['total_remaining']) }} </small>
+                                        <small>MWK {{ number_format($data['total_remaining'], 2) }} </small>
                                     </div>
                                 </div>
                             </div>
@@ -151,8 +151,11 @@
                     ],
                     datasets: [{
                         label: 'Collected vs Remaining vs Target',
-                        data: [{{ $data['target'] }}, {{ $data['total_collected'] }},
-                            {{ $data['total_remaining'] }}
+                        data: [
+                            {{ number_format((float)$data['target'], 2, '.', '') }},
+                            {{ number_format((float)$data['total_collected'], 2, '.', '') }},
+                            {{ number_format((float)$data['total_remaining'], 2, '.', '') }}
+
                         ],
                         backgroundColor: [
                             'rgb(255, 205, 86)',

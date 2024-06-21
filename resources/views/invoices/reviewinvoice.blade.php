@@ -43,13 +43,13 @@
 
                                     <div class="col-md-3 col-lg-3">
                                         <label>Invoice Amount:</label>
-                                        <p><b>{{($invoice->amount+$invoice->debit_adjustment)-$invoice->crreview_adjustment}}</b></p>
+                                        <p><b>MWK {{ number_format(($invoice->amount+$invoice->debit_adjustment)-$invoice->crreview_adjustment,2,'.',',')}}</b></p>
 
 
                                     </div>
                                     <div class="col-md-3 col-lg-3">
                                         <label>Amount Collected:</label>
-                                        <p><b>{{$invoice->amount_paid}}</b></p>
+                                        <p><b>MWK {{ number_format($invoice->amount_paid,2,'.',',')}}</b></p>
                                     </div>
                                 </div>
 
@@ -80,7 +80,7 @@
 
                           <div class="form-group col-md-6 col-lg-6">
                             <label for="exampleInputName1"> Amount Collected</label>
-                            <input type="number" min="1" readonly class="form-control" id="exampleInputName1" placeholder="Invoice Amount Colected" name="current_amount_collected" style="@error('amount')border:1px red solid;@enderror" value="{{ $invoice->current_amount_collected }}">
+                            <input type="number" min="1" step="any" readonly class="form-control" id="exampleInputName1" placeholder="Invoice Amount Colected" name="current_amount_collected" style="@error('amount')border:1px red solid;@enderror" value="{{ $invoice->current_amount_collected }}">
                             @error('amount')
                                 <div style="color: red;">
                                     {{ $message }}
