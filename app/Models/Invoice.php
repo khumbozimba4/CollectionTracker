@@ -21,7 +21,8 @@ class Invoice extends Model
         "debit_adjustment",
         "is_reviewed",
         'remarks',
-        'current_amount_collected'
+        'current_amount_collected',
+        'invoice_total'
     ];
     public function user()
     {

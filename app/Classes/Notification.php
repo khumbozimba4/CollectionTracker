@@ -80,7 +80,7 @@ class Notification
         $invoicesCount = Invoice::whereMonth('created_at', self::getCurrentMonth())
             ->whereYear('created_at', self::getCurrentYear())
             ->where('is_reviewed', '0')
-            ->where('current_amount_collected', '>=', '0')
+            ->where('current_amount_collected', '>', '0')
             ->count();
 
 

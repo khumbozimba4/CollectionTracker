@@ -112,7 +112,7 @@
     </div>
     </div>
 
- 
+
         @section('scripts')
             <script>
                 const ctx = document.getElementById('myChart');
@@ -125,7 +125,7 @@
                     ],
                     datasets: [{
                         label: 'Collected vs Remaining vs Target',
-                        data: [{{ $location_report['target'],2 }}, {{ $location_report['total_collected'] ,2}},
+                        data: [{{ number_format($location_report['target'],3)}}, {{number_format($location_report['total_collected'] ,3)}},
                             {{ $location_report['total_remaining'] }}
                         ],
                         backgroundColor: [

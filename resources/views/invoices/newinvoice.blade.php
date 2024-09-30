@@ -48,6 +48,16 @@
                       </div>
 
                       <div class="form-group col-md-6 col-lg-6">
+                        <label for="exampleInputName1">Invoice Total</label>
+                        <input type="number" min="1" class="form-control" step="any" id="exampleInputName1" placeholder="Invoice total" name="invoice_total" style="@error('invoice_total')border:1px red solid;@enderror" value="{{ old('amount') }}">
+                        @error('invoice_total')
+                            <div style="color: red;">
+                                {{ $message }}
+                            </div>
+                         @enderror
+                      </div>
+
+                      <div class="form-group col-md-6 col-lg-6">
                         <label for="exampleInputName1">Invoice Amount</label>
                         <input type="number" min="1" class="form-control" step="any" id="exampleInputName1" placeholder="Invoice Amount" name="amount" style="@error('amount')border:1px red solid;@enderror" value="{{ old('amount') }}">
                         @error('amount')

@@ -29,54 +29,93 @@
 
                         </div>
                     </div>
-                    <div class="col-md-10 col-lg-10">
+                    <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12">
                         <div class="row">
-                            <form action="{{ route('reports.search') }}" class="form-horizotal" method="post">
-                                @csrf
-                                <div class="col-md-4 col-lg-4">
-                                    <label>Year:</label>
-                                    <input type="number" style="@error('year')border:1px red solid;@enderror"
-                                        min="2024" max="{{ \Carbon\Carbon::now()->year }}" name="year"
-                                        class="form-control" required placeholder="Enter year">
-                                    @error('year')
-                                        <div style="color: red;">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
+                            <div class="col-md-6">
+                                <h2>Yearly Reports</h2>
 
-                                <div class="col-md-4 mt-2 col-lg-4">
-                                    <label>Select Month:</label>
-                                    <select id="months" style="height: 43px"
-                                        style="@error('month')border:1px red solid;@enderror" class="form-control"
-                                        name="month">
-                                        <option value="1">January</option>
-                                        <option value="2">February</option>
-                                        <option value="3">March</option>
-                                        <option value="4">April</option>
-                                        <option value="5">May</option>
-                                        <option value="6">June</option>
-                                        <option value="7">July</option>
-                                        <option value="8">August</option>
-                                        <option value="9">September</option>
-                                        <option value="10">October</option>
-                                        <option value="11">November</option>
-                                        <option value="12">December</option>
-                                    </select>
-                                    @error('month')
-                                        <div style="color: red;">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
+                                <form action="{{ route('reports.search') }}" class="form-horizotal" method="post">
+                                    @csrf
+                                    <div class="col-10"">
+                                        <label>Year:</label>
+                                        <input type="number" style="@error('year')border:1px red solid;@enderror"
+                                            min="2024" max="{{ \Carbon\Carbon::now()->year }}" name="year"
+                                            class="form-control" required placeholder="Enter year">
+                                        @error('year')
+                                            <div style="color: red;">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
 
-                                <div class="col-md-4 mt-2 col-lg-4">
-                                    <button type="submit" class="btn btn-primary">Generate Report</button>
-                                </div>
-                            </form>
+                                    <div class="col-10 mt-2 col-10">
+                                        <label>Select Month:</label>
+                                        <select id="months" style="height: 43px"
+                                            style="@error('month')border:1px red solid;@enderror" class="form-control"
+                                            name="month">
+                                            <option value="1">January</option>
+                                            <option value="2">February</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">August</option>
+                                            <option value="9">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                        @error('month')
+                                            <div style="color: red;">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
 
-                        </div>
+                                    <div class="col-md-4 mt-2 col-lg-4">
+                                        <button type="submit" class="btn btn-primary">Generate Report</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-6">
+                                <h2>Dynamic Reports</h2>
+
+                                <form action="{{ route('reports.search.dynamic') }}" class="form-horizotal" method="post">
+                                    @csrf
+                                    <div class="col-10 col-10">
+                                        <label>Start Date:</label>
+                                        <input type="date" style="@error('startDate')border:1px red solid;@enderror"
+                                             max="{{ \Carbon\Carbon::now() }}" name="startDate"
+                                            class="form-control" required placeholder="Enter start date year">
+                                        @error('startDate')
+                                            <div style="color: red;">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-10 col-10">
+
+                                        <label>End Date:</label>
+                                        <input type="date" style="@error('endDate')border:1px red solid;@enderror"
+                                             max="{{ \Carbon\Carbon::now() }}" name="endDate"
+                                            class="form-control" required placeholder="Enter end date">
+                                        @error('endDate')
+                                            <div style="color: red;">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-md-4 mt-2 col-lg-4">
+                                        <button type="submit" class="btn btn-primary">Generate Report</button>
+                                    </div>
+                                </form>
+                            </div>
+                         </div>
                     </div>
+
                 </div>
 
 

@@ -20,14 +20,11 @@
             <div class="card">
               <div class="card-body">
 
-
-
               <div class="row">
                     <div class="col-md-12 col-lg-12 text-center">
 
                         <div class="nav-profile-text">
                             <h4 class="card-title">Amount Claimed to have been collected: <span class="text-danger"> MWK {{$invoice->current_amount_collected}}</span3</h4>
-
                         </div>
                     </div>
 

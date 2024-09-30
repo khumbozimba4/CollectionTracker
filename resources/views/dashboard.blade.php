@@ -31,6 +31,7 @@
                                 </div>
                             @endif
 
+
                             <div class="col-xl-4 col-xxl-4 col-sm-6">
                                 <div class="widget-stat card">
                                     <div class="card-body">
@@ -45,13 +46,13 @@
                                 </div>
                             </div>
                             @php
-                                //dd($data["target"]);
+
                                 if ($data['target'] != 0) {
                                     $percent = ($data['total_collected'] / $data['target']) * 100;
                                 } else {
                                     $percent = 0;
                                 }
-                                //dd($percent);
+
                             @endphp
                             <div class="col-xl-4 col-xxl-4 col-sm-6">
                                 <div class="widget-stat card">
@@ -114,9 +115,22 @@
                                     </div>
                                 </div>
                             @endisset
+
+                            <div class="col-xl-4 col-xxl-4 col-sm-6">
+                                <div class="widget-stat card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Total Invoice</h4>
+                                        <h3>MWK {{ number_format($data['target'],2) }}</h3>
+                                        <div class="progress mb-2">
+                                            <div class="progress-bar progress-animated bg-primary"
+                                                style="width: {{ $data['target'] }}%"></div>
+                                        </div>
+                                        <small>MWK {{ number_format($data['target'],2) }} </small>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
-
-
                         @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('Head') || auth()->user()->hasRole('manager'))
                         <div class="col-md-12 col-lg-12 col-sm-12">
                                 <div class="mt-4">
@@ -130,7 +144,6 @@
                                 <canvas id="myChart"></canvas>
                             </div>
                         </div>
-
                 </div>
             </div>
         </div>

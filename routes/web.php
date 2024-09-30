@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/reports', [ReportController::class, 'index'])->name('reports');
     Route::post('/reports/search', [ReportController::class, 'Search'])->name('reports.search');
+    Route::post('/reports/dynamic-reports', [ReportController::class, 'DynamicReports'])->name('reports.search.dynamic');
 
     Route::get('/customers', [CustomerController::class, 'index'])->name('customers');
     Route::get('/customers/view/{id}', [CustomerController::class, 'viewcustomer'])->name('customers.view');
@@ -54,6 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/invoices/edit/{id}', [InvoiceController::class, 'editinvoice'])->name('invoices.edit');
     Route::post('/invoices/edit/{id}', [InvoiceController::class, 'editinvoicestore']);
     Route::get('/invoices/review/{id}', [InvoiceController::class, 'reviewinvoice'])->name('invoices.review');
+    Route::get('/invoices/filter/{type}', [InvoiceController::class, 'invoicefilter'])->name('invoicefilter');
     Route::post('/invoices/review/{id}', [InvoiceController::class, 'reviewinvoicestore']);
 
     Route::post('/search-invoice', [HomeController::class, 'searchInvoice'])->name("search");

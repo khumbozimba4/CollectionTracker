@@ -7,6 +7,7 @@ use App\Models\Invoice;
 use App\Models\Location;
 use App\Models\Role;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -19,6 +20,61 @@ class InvoiceController extends Controller
         return response()->json($customers);
     }
 
+    public function invoicefilter($type): View
+    {
+
+        $status = "";
+        if ($type == "unpayed") {
+            $status = "NOTPAID";
+        }
+        if ($type == "partially") {
+            $status = "PARTIALYPAID";
+        }
+        if ($type == "fully") {
+            $status = "PAID";
+        }
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+
+        if (auth()->user()->hasRole("admin") || auth()->user()->hasRole("Head")) {
+            // $invoices = Invoice::whereMonth('created_at', $currentMonth)
+            //     ->whereYear('created_at', $currentYear)
+            //     ->latest()->paginate(10);
+
+            $invoices = Invoice::where('status', $status)->latest()->paginate(10);
+        } else if (auth()->user()->hasRole("manager")) {
+
+            $managerId = auth()->user()->id;
+            // Assuming you want to retrieve the manager's location
+            $managerLocation = Location::where('user_id', $managerId)->with('salesPersons')->first();
+
+            // Assuming you want to get IDs of all salespersons associated with the manager's location
+            $salesPersonIds = $managerLocation->salesPersons->pluck('id')->toArray();
+
+            $invoices = Invoice::whereIn('user_id', $salesPersonIds)
+                ->whereMonth('created_at', $currentMonth)
+                ->whereYear('created_at', $currentYear)
+                ->latest()
+                ->paginate();
+        } else if (auth()->user()->hasRole("Treasurer")) {
+
+            $invoices = Invoice::whereMonth('created_at', $currentMonth)
+                ->whereYear('created_at', $currentYear)
+                ->where('is_reviewed', '=', '0')
+                ->where('current_amount_collected', '>', '0')
+                ->latest()->paginate(10);
+        } else {
+            $invoices = Invoice::where("user_id", auth()->user()->id)
+                ->whereMonth('created_at', $currentMonth)
+                ->whereYear('created_at', $currentYear)
+                ->latest()
+                ->paginate(10);
+        }
+
+        return view('invoices.invoices', [
+            'invoices' => $invoices
+        ]);
+    }
     public function index()
     {
 
@@ -27,9 +83,11 @@ class InvoiceController extends Controller
         $currentYear = Carbon::now()->year;
 
         if (auth()->user()->hasRole("admin") || auth()->user()->hasRole("Head")) {
-            $invoices = Invoice::whereMonth('created_at', $currentMonth)
-                ->whereYear('created_at', $currentYear)
-                ->latest()->paginate(10);
+            // $invoices = Invoice::whereMonth('created_at', $currentMonth)
+            //     ->whereYear('created_at', $currentYear)
+            //     ->latest()->paginate(10);
+
+            $invoices = Invoice::latest()->paginate(10);
         } else if (auth()->user()->hasRole("manager")) {
 
             $managerId = auth()->user()->id;
@@ -50,7 +108,7 @@ class InvoiceController extends Controller
             $invoices = Invoice::whereMonth('created_at', $currentMonth)
                 ->whereYear('created_at', $currentYear)
                 ->where('is_reviewed', '=', '0')
-                ->where('current_amount_collected', '>=', '0')
+                ->where('current_amount_collected', '>', '0')
                 ->latest()->paginate(10);
         } else {
             $invoices = Invoice::where("user_id", auth()->user()->id)
@@ -82,7 +140,7 @@ class InvoiceController extends Controller
             $is_reviewed = $request->is_reviewed;
             if ($is_reviewed == 0) {
                 $invoice->amount_paid += $request->current_amount_collected;
-                $invoice->is_reviewed = '0';
+                $invoice->is_reviewed = '1';
                 $invoice->current_amount_collected = 0;
                 $invoice->remarks = $request->remarks;
                 $invoice->save();
@@ -105,6 +163,7 @@ class InvoiceController extends Controller
         $validatedData = $request->validate([
             'invoice_number' => 'required|unique:invoices',
             'amount' => 'required|numeric',
+            'invoice_total' => 'required|numeric',
             'status' => 'required',
             'amount_paid' => 'required|numeric',
             'credit_adjustment' => 'required|numeric',
@@ -114,6 +173,7 @@ class InvoiceController extends Controller
         ]);
         $data = [];
         $data["amount"] = $request->amount;
+        $data["invoice_total"] = $request->invoice_total;
         $data["status"] = $request->status;
         $data["amount_paid"] = $request->amount_paid;
         $data["credit_adjustment"] = $request->credit_adjustment;

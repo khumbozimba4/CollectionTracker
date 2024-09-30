@@ -1,5 +1,9 @@
 <x-app-layout>
+    @php
+    $lastSegment = request()->segment(count(request()->segments()));
 
+
+    @endphp
     <div class="page-header">
         @if (auth()->user()->hasRole('admin'))
             <a href="{{ route('invoices.new') }}"><button class="btn btn-primary" type="button"><i class="fa fa-plus"></i>
@@ -12,10 +16,17 @@
         </nav>
     </div>
 
-
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body" style="width: 100%; overflow-x: auto;">
+
+
+                <ul class="nav nav-pills mb-3" role="tablist">
+                    <li class="nav-item" ><a href="{{route('invoices')}}"  class="nav-link me-1 @if($lastSegment=="invoices") show active @endif" aria-selected="true">All Invoices</a></li>
+                    <li class="nav-item" ><a href="{{route('invoicefilter',['type'=>'unpayed'])}}"  class="nav-link me-1 @if($lastSegment=="unpayed") show active @endif" aria-selected="false" >Unpayed Invoices</a></li>
+                    <li class="nav-item" ><a href="{{route('invoicefilter',['type'=>'fully'])}}"  class="nav-link @if($lastSegment=="fully") show active @endif" aria-selected="false"  tabindex="-1">Fully Paid Invoices</a></li>
+                    <li class="nav-item" ><a href="{{route('invoicefilter',['type'=>'partially'])}}"  class="nav-link @if($lastSegment=="partially") show active @endif" aria-selected="false"  tabindex="-1">Partially Paid Invoices</a></li>
+                </ul>
                 <div class="row">
                     <div class="col-md-4">
 
@@ -36,84 +47,81 @@
                         </form>
                     </div>
                 </div>
-
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th> Invoice # </th>
-                            <th> Customer </th>
-                            <th> Sales Person </th>
-                            <th> Target Amount</th>
-                            <th> Amount Collected </th>
-                            <th> Balance </th>
-                            <th> Status </th>
-                            <th> Updated </th>
-                            <th> Edit </th>
-                            <th> Created </th>
-                            <th> More </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        @if ($invoices->count())
-                            @foreach ($invoices as $invoice)
+                  <table class="table table-striped">
+                            <thead>
                                 <tr>
-                                    <td> {{ $invoice->invoice_number }} </td>
-                                    <td> {{ $invoice->customer->name }} </td>
-                                    <td> {{ $invoice->user->name }} </td>
-                                    <td> {{ number_format($invoice->amount + $invoice->debit_adjustment - $invoice->credit_adjustment,2,'.', ',')}}
-                                    </td>
-                                    <td> {{ number_format($invoice->amount_paid,2,'.', ',') }} </td>
-                                    <td> {{ number_format($invoice->amount + $invoice->debit_adjustment - $invoice->credit_adjustment - $invoice->amount_paid ,2,'.', ',')}}
-                                    </td>
-                                    <td>
-                                        @if ($invoice->status == 'PARTIALYPAID')
-                                            <span class="badge badge-warning"><i class="fa fa-check-circle"></i>
-                                                {{ $invoice->status }}</span>
-                                        @endif
-                                        @if ($invoice->status == 'PAID')
-                                            <span class="badge badge-success"><i class="fa fa-check-circle"></i>
-                                                {{ $invoice->status }}</span>
-                                        @endif
-                                        @if ($invoice->status == 'NOTPAID')
-                                            <span class="badge badge-danger"><i class="fa fa-check-circle"></i>
-                                                {{ $invoice->status }}</span>
-                                        @endif
-                                    </td>
-                                    <td> {{ $invoice->user->name }} </td>
-                                    <td> {{ $invoice->updated_at->diffForHumans() }} </td>
-                                    <td> {{ $invoice->created_at->diffForHumans() }} </td>
-                                    @if (auth()->user()->hasRole('Treasurer'))
-                                        <td> <a class="btn btn-warning"
-                                                href="{{ route('invoices.review', $invoice->id) }}"><i
-                                                    class="fa fa-edit"></i> Review </a> </td>
-                                    @endif
-                                    @if (!auth()->user()->hasRole('Treasurer'))
-                                        <td> <a class="btn btn-warning"
-                                                href="{{ route('invoices.edit', $invoice->id) }}"><i
-                                                    class="fa fa-edit"></i> Edit </a> </td>
-                                    @endif
-                                    <td> <a class="btn btn-primary"
-                                            href="{{ route('invoices.view', $invoice->id) }}">More <i
-                                                class="mdi mdi-arrow-right"></i> </a> </td>
-
+                                    <th> Invoice # </th>
+                                    <th> Customer </th>
+                                    <th> Sales Person </th>
+                                    <th> Target Amount</th>
+                                    <th> Amount Collected </th>
+                                    <th> Balance </th>
+                                    <th> Status </th>
+                                    <th> Updated </th>
+                                    <th> Edit </th>
+                                    <th> Created </th>
+                                    <th> More </th>
                                 </tr>
-                            @endforeach
-                        @else
-                            <div class="alert alert-danger">No records</div>
+                            </thead>
+                            <tbody>
+
+                                @if ($invoices->count())
+                                    @foreach ($invoices as $invoice)
+                                        <tr>
+                                            <td> {{ $invoice->invoice_number }} </td>
+                                            <td> {{ $invoice->customer->name }} </td>
+                                            <td> {{ $invoice->user->name }} </td>
+                                            <td> {{ number_format($invoice->amount + $invoice->debit_adjustment - $invoice->credit_adjustment,2,'.', ',')}}
+                                            </td>
+                                            <td> {{ number_format($invoice->amount_paid,2,'.', ',') }} </td>
+                                            <td> {{ number_format($invoice->amount + $invoice->debit_adjustment - $invoice->credit_adjustment - $invoice->amount_paid ,2,'.', ',')}}
+                                            </td>
+                                            <td>
+                                                @if ($invoice->status == 'PARTIALYPAID')
+                                                    <span class="badge badge-warning"><i class="fa fa-check-circle"></i>
+                                                        {{ $invoice->status }}</span>
+                                                @endif
+                                                @if ($invoice->status == 'PAID')
+                                                    <span class="badge badge-success"><i class="fa fa-check-circle"></i>
+                                                        {{ $invoice->status }}</span>
+                                                @endif
+                                                @if ($invoice->status == 'NOTPAID')
+                                                    <span class="badge badge-danger"><i class="fa fa-check-circle"></i>
+                                                        {{ $invoice->status }}</span>
+                                                @endif
+                                            </td>
+                                            <td> {{ $invoice->user->name }} </td>
+                                            <td> {{ $invoice->updated_at->diffForHumans() }} </td>
+                                            <td> {{ $invoice->created_at->diffForHumans() }} </td>
+                                            @if (auth()->user()->hasRole('Treasurer'))
+                                                <td> <a class="btn btn-warning"
+                                                        href="{{ route('invoices.review', $invoice->id) }}"><i
+                                                            class="fa fa-edit"></i> Review </a> </td>
+                                            @endif
+                                            @if (!auth()->user()->hasRole('Treasurer'))
+                                                <td> <a class="btn btn-warning"
+                                                        href="{{ route('invoices.edit', $invoice->id) }}"><i
+                                                            class="fa fa-edit"></i> Edit </a> </td>
+                                            @endif
+                                            <td> <a class="btn btn-primary"
+                                                    href="{{ route('invoices.view', $invoice->id) }}">More <i
+                                                        class="mdi mdi-arrow-right"></i> </a> </td>
+
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <div class="alert alert-danger">No records</div>
+                                @endif
+
+                            </tbody>
+                        </table>
+                        @if (!empty($invoices->links()))
+                            <div class="d-flex justify-content-center">
+                                {!! $invoices->links('vendor.pagination.bootstrap-5') !!}
+                            </div>
                         @endif
-
-
-                    </tbody>
-                </table>
-                @if (!empty($invoices->links))
-                    <div class="d-flex justify-content-center">
-                        {!! $invoices->links('vendor.pagination.bootstrap-5') !!}
-                    </div>
-                @endif
-
-
             </div>
         </div>
     </div>
+
 </x-app-layout>
