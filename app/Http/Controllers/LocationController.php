@@ -108,8 +108,10 @@ class LocationController extends Controller
         $invoices = Invoice::whereIn('user_id', $salesPersonIds)
             ->whereMonth('created_at', $currentMonth)
             ->whereYear('created_at', $currentYear)
-            ->select("amount", "credit_adjustment", "debit_adjustment", "amount_paid", "balance")
+            ->select("amount", "invoice_total", "credit_adjustment", "debit_adjustment", "amount_paid", "balance")
             ->get();
+
+        $invoice_total = $invoices->sum(callback: 'invoice_total');
 
         // dd($invoices);
         $customers = Customer::whereIn('user_id', $salesPersonIds)->count();
@@ -123,6 +125,7 @@ class LocationController extends Controller
 
         $location_report["target"] = ($totalAmount + $totalDebitAdjustment) - $totalCreditAdjustment;
         $location_report["total_collected"] = $invoices->sum("amount_paid");
+        $location_report["invoice_total"] = $invoice_total;
         // dd($location_report["total_collected"]);
         $total_remaining = $location_report["target"] - $location_report["total_collected"];
         $location_report["total_remaining"] = $total_remaining;

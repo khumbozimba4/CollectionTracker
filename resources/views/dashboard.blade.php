@@ -120,12 +120,12 @@
                                 <div class="widget-stat card">
                                     <div class="card-body">
                                         <h4 class="card-title">Total Invoice</h4>
-                                        <h3>MWK {{ number_format($data['target'],2) }}</h3>
+                                        <h3>MWK {{ number_format($data['invoice_total'],2) }}</h3>
                                         <div class="progress mb-2">
                                             <div class="progress-bar progress-animated bg-primary"
-                                                style="width: {{ $data['target'] }}%"></div>
+                                                style="width: {{ $data['invoice_total'] }}%"></div>
                                         </div>
-                                        <small>MWK {{ number_format($data['target'],2) }} </small>
+                                        <small>MWK {{ number_format($data['invoice_total'],2) }} </small>
                                     </div>
                                 </div>
                             </div>

@@ -92,6 +92,19 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-xl-4 col-xxl-4 col-sm-6">
+                                <div class="widget-stat card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Total Invoice</h4>
+                                        <h3>{{ $location_report['invoice_total'] }}</h3>
+                                        <div class="progress mb-2">
+                                            <div class="progress-bar progress-animated bg-red"
+                                                style="width: {{ $location_report['invoice_total'] }}%"></div>
+                                        </div>
+                                        <small>{{ $location_report['invoice_total'] }}</small>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
 

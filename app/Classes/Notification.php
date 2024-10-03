@@ -33,7 +33,7 @@ class Notification
             $invoices = Invoice::where("user_id", auth()->user()->id)
                 ->whereMonth('created_at', self::getCurrentMonth())
                 ->whereYear('created_at', self::getCurrentYear())
-                ->select("amount", "credit_adjustment", "debit_adjustment", "amount_paid", "balance")
+                ->select("amount", 'invoice_total', "credit_adjustment", "debit_adjustment", "amount_paid", "balance")
                 ->get();
         } else if (auth()->user()->hasRole("manager")) {
 
@@ -52,7 +52,7 @@ class Notification
             $invoices = Invoice::whereIn('user_id', $salesPersonIds)
                 ->whereMonth('created_at', self::getCurrentMonth())
                 ->whereYear('created_at', self::getCurrentYear())
-                ->select("amount", "credit_adjustment", "debit_adjustment", "amount_paid", "balance")
+                ->select("amount", 'invoice_total', "credit_adjustment", "debit_adjustment", "amount_paid", "balance")
                 ->get();
 
 
@@ -69,7 +69,7 @@ class Notification
 
             $invoices = Invoice::whereMonth('created_at', self::getCurrentMonth())
                 ->whereYear('created_at', self::getCurrentYear())
-                ->select("amount", "credit_adjustment", "debit_adjustment", "amount_paid", "balance")
+                ->select("amount", 'invoice_total', "credit_adjustment", "debit_adjustment", "amount_paid", "balance")
                 ->get();
             $customers  = Customer::count();
             $totalSalespersons =  User::whereHas('roles', function ($query) {
@@ -90,10 +90,12 @@ class Notification
 
 
             $totalAmount = $invoices->sum('amount');
+            $invoice_total = $invoices->sum(callback: 'invoice_total');
             $totalCreditAdjustment = $invoices->sum('credit_adjustment');
             $totalDebitAdjustment = $invoices->sum('debit_adjustment');
 
             $data["target"] =  ($totalAmount + $totalDebitAdjustment) - $totalCreditAdjustment;
+            $data["invoice_total"] =  $invoice_total;
 
             $data["total_collected"] = $invoices->sum("amount_paid");
 
